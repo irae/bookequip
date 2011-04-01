@@ -1,0 +1,32 @@
+LabEquipment:
+  columns:
+    name:      { type: string(255), notnull: true, unique: true }
+    wiki_page: { type: string(255) }
+ 
+LabAppointment:
+  actAs: { Timestampable: ~ }
+  columns:
+    equipment_id:     { type: integer, notnull: true }
+    user_id:          { type: integer, notnull: true }
+    appointment_date: { type: date, notnull: true }
+	starts_at:        { type: time, notnull: true }
+    ends_at:          { type: time, notnull: true }
+    event_status:     { type: string(255), notnull: true }
+	is_synched        { type: boolean, default: 0 }
+  relations:
+    LabEquipment: { local: equipment_id, foreign: id, foreignAlias: LabAppointments }
+	LabUser:      { local: user_id, foreign: id, foreignAlias: LabAppointments }
+ 
+LabEquipmentAvailability:
+  columns:
+    equipment_id:    { type: integer, notnull: true }
+    start_time:      { type: time, notnull: true }
+    end_time:        { type: time, notnull: true }
+  relations:
+    LabEquipment: { onDelete: CASCADE, local: equipment_id, foreign: id } 
+	
+LabUser:
+  actAs: { Timestampable: ~ }
+  columns:
+    name:      { type: string(255), notnull: true }
+	user_type: { type: integer(2), notnull: true, default: 0 } 
