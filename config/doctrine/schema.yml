@@ -9,13 +9,14 @@ LabAppointment:
     equipment_id:     { type: integer, notnull: true }
     user_id:          { type: integer, notnull: true }
     appointment_date: { type: date, notnull: true }
-	starts_at:        { type: time, notnull: true }
+    starts_at:        { type: time, notnull: true }
     ends_at:          { type: time, notnull: true }
-    event_status:     { type: string(255), notnull: true }
-	is_synched        { type: boolean, default: 0 }
+    appointment_type: { type: enum, values: [ basic, advanced ] }
+    event_status:     { type: enum, values: [ approved, pending, billed] }
+    is_synched:       { type: boolean, default: 0 }
   relations:
     LabEquipment: { local: equipment_id, foreign: id, foreignAlias: LabAppointments }
-	LabUser:      { local: user_id, foreign: id, foreignAlias: LabAppointments }
+    LabUser:      { local: user_id, foreign: id, foreignAlias: LabAppointments }
  
 LabEquipmentAvailability:
   columns:
@@ -24,9 +25,9 @@ LabEquipmentAvailability:
     end_time:        { type: time, notnull: true }
   relations:
     LabEquipment: { onDelete: CASCADE, local: equipment_id, foreign: id } 
-	
+
 LabUser:
   actAs: { Timestampable: ~ }
   columns:
     name:      { type: string(255), notnull: true }
-	user_type: { type: integer(2), notnull: true, default: 0 } 
+    user_type: { type: integer(2), notnull: true, default: 0 } 

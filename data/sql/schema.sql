@@ -1,0 +1,7 @@
+CREATE TABLE lab_appointment (id BIGINT AUTO_INCREMENT, equipment_id BIGINT NOT NULL, user_id BIGINT NOT NULL, appointment_date DATE NOT NULL, starts_at TIME NOT NULL, ends_at TIME NOT NULL, appointment_type VARCHAR(255), event_status VARCHAR(255), is_synched TINYINT(1) DEFAULT '0', created_at DATETIME NOT NULL, updated_at DATETIME NOT NULL, INDEX equipment_id_idx (equipment_id), INDEX user_id_idx (user_id), PRIMARY KEY(id)) ENGINE = INNODB;
+CREATE TABLE lab_equipment (id BIGINT AUTO_INCREMENT, name VARCHAR(255) NOT NULL UNIQUE, wiki_page VARCHAR(255), PRIMARY KEY(id)) ENGINE = INNODB;
+CREATE TABLE lab_equipment_availability (id BIGINT AUTO_INCREMENT, equipment_id BIGINT NOT NULL, start_time TIME NOT NULL, end_time TIME NOT NULL, INDEX equipment_id_idx (equipment_id), PRIMARY KEY(id)) ENGINE = INNODB;
+CREATE TABLE lab_user (id BIGINT AUTO_INCREMENT, name VARCHAR(255) NOT NULL, user_type SMALLINT DEFAULT 0 NOT NULL, created_at DATETIME NOT NULL, updated_at DATETIME NOT NULL, PRIMARY KEY(id)) ENGINE = INNODB;
+ALTER TABLE lab_appointment ADD CONSTRAINT lab_appointment_user_id_lab_user_id FOREIGN KEY (user_id) REFERENCES lab_user(id);
+ALTER TABLE lab_appointment ADD CONSTRAINT lab_appointment_equipment_id_lab_equipment_id FOREIGN KEY (equipment_id) REFERENCES lab_equipment(id);
+ALTER TABLE lab_equipment_availability ADD CONSTRAINT lab_equipment_availability_equipment_id_lab_equipment_id FOREIGN KEY (equipment_id) REFERENCES lab_equipment(id) ON DELETE CASCADE;
