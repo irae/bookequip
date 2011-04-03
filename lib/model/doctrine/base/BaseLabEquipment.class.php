@@ -8,16 +8,16 @@
  * @property string $name
  * @property string $wiki_page
  * @property Doctrine_Collection $LabAppointments
- * @property Doctrine_Collection $LabEquipmentAvailability
+ * @property Doctrine_Collection $LabEquipmentSchedule
  * 
- * @method string              getName()                     Returns the current record's "name" value
- * @method string              getWikiPage()                 Returns the current record's "wiki_page" value
- * @method Doctrine_Collection getLabAppointments()          Returns the current record's "LabAppointments" collection
- * @method Doctrine_Collection getLabEquipmentAvailability() Returns the current record's "LabEquipmentAvailability" collection
- * @method LabEquipment        setName()                     Sets the current record's "name" value
- * @method LabEquipment        setWikiPage()                 Sets the current record's "wiki_page" value
- * @method LabEquipment        setLabAppointments()          Sets the current record's "LabAppointments" collection
- * @method LabEquipment        setLabEquipmentAvailability() Sets the current record's "LabEquipmentAvailability" collection
+ * @method string              getName()                 Returns the current record's "name" value
+ * @method string              getWikiPage()             Returns the current record's "wiki_page" value
+ * @method Doctrine_Collection getLabAppointments()      Returns the current record's "LabAppointments" collection
+ * @method Doctrine_Collection getLabEquipmentSchedule() Returns the current record's "LabEquipmentSchedule" collection
+ * @method LabEquipment        setName()                 Sets the current record's "name" value
+ * @method LabEquipment        setWikiPage()             Sets the current record's "wiki_page" value
+ * @method LabEquipment        setLabAppointments()      Sets the current record's "LabAppointments" collection
+ * @method LabEquipment        setLabEquipmentSchedule() Sets the current record's "LabEquipmentSchedule" collection
  * 
  * @package    BookEquip
  * @subpackage model
@@ -48,7 +48,7 @@ abstract class BaseLabEquipment extends sfDoctrineRecord
              'local' => 'id',
              'foreign' => 'equipment_id'));
 
-        $this->hasMany('LabEquipmentAvailability', array(
+        $this->hasMany('LabEquipmentSchedule', array(
              'local' => 'id',
              'foreign' => 'equipment_id'));
     }

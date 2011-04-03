@@ -13,11 +13,10 @@ abstract class BaseLabAppointmentFormFilter extends BaseFormFilterDoctrine
   public function setup()
   {
     $this->setWidgets(array(
-      'equipment_id'     => new sfWidgetFormDoctrineChoice(array('model' => $this->getRelatedModelName('LabEquipment'), 'add_empty' => true)),
       'user_id'          => new sfWidgetFormDoctrineChoice(array('model' => $this->getRelatedModelName('LabUser'), 'add_empty' => true)),
+      'equipment_id'     => new sfWidgetFormDoctrineChoice(array('model' => $this->getRelatedModelName('LabEquipment'), 'add_empty' => true)),
       'appointment_date' => new sfWidgetFormFilterDate(array('from_date' => new sfWidgetFormDate(), 'to_date' => new sfWidgetFormDate(), 'with_empty' => false)),
-      'starts_at'        => new sfWidgetFormFilterInput(array('with_empty' => false)),
-      'ends_at'          => new sfWidgetFormFilterInput(array('with_empty' => false)),
+      'schedule_id'      => new sfWidgetFormDoctrineChoice(array('model' => $this->getRelatedModelName('LabEquipmentSchedule'), 'add_empty' => true)),
       'appointment_type' => new sfWidgetFormChoice(array('choices' => array('' => '', 'basic' => 'basic', 'advanced' => 'advanced'))),
       'event_status'     => new sfWidgetFormChoice(array('choices' => array('' => '', 'approved' => 'approved', 'pending' => 'pending', 'billed' => 'billed'))),
       'is_synched'       => new sfWidgetFormChoice(array('choices' => array('' => 'yes or no', 1 => 'yes', 0 => 'no'))),
@@ -26,11 +25,10 @@ abstract class BaseLabAppointmentFormFilter extends BaseFormFilterDoctrine
     ));
 
     $this->setValidators(array(
-      'equipment_id'     => new sfValidatorDoctrineChoice(array('required' => false, 'model' => $this->getRelatedModelName('LabEquipment'), 'column' => 'id')),
       'user_id'          => new sfValidatorDoctrineChoice(array('required' => false, 'model' => $this->getRelatedModelName('LabUser'), 'column' => 'id')),
+      'equipment_id'     => new sfValidatorDoctrineChoice(array('required' => false, 'model' => $this->getRelatedModelName('LabEquipment'), 'column' => 'id')),
       'appointment_date' => new sfValidatorDateRange(array('required' => false, 'from_date' => new sfValidatorDate(array('required' => false)), 'to_date' => new sfValidatorDateTime(array('required' => false)))),
-      'starts_at'        => new sfValidatorPass(array('required' => false)),
-      'ends_at'          => new sfValidatorPass(array('required' => false)),
+      'schedule_id'      => new sfValidatorDoctrineChoice(array('required' => false, 'model' => $this->getRelatedModelName('LabEquipmentSchedule'), 'column' => 'id')),
       'appointment_type' => new sfValidatorChoice(array('required' => false, 'choices' => array('basic' => 'basic', 'advanced' => 'advanced'))),
       'event_status'     => new sfValidatorChoice(array('required' => false, 'choices' => array('approved' => 'approved', 'pending' => 'pending', 'billed' => 'billed'))),
       'is_synched'       => new sfValidatorChoice(array('required' => false, 'choices' => array('', 1, 0))),
@@ -56,11 +54,10 @@ abstract class BaseLabAppointmentFormFilter extends BaseFormFilterDoctrine
   {
     return array(
       'id'               => 'Number',
-      'equipment_id'     => 'ForeignKey',
       'user_id'          => 'ForeignKey',
+      'equipment_id'     => 'ForeignKey',
       'appointment_date' => 'Date',
-      'starts_at'        => 'Text',
-      'ends_at'          => 'Text',
+      'schedule_id'      => 'ForeignKey',
       'appointment_type' => 'Enum',
       'event_status'     => 'Enum',
       'is_synched'       => 'Boolean',

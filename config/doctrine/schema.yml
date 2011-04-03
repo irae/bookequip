@@ -2,23 +2,23 @@ LabEquipment:
   columns:
     name:      { type: string(255), notnull: true, unique: true }
     wiki_page: { type: string(255) }
- 
+
 LabAppointment:
   actAs: { Timestampable: ~ }
   columns:
-    equipment_id:     { type: integer, notnull: true }
     user_id:          { type: integer, notnull: true }
+    equipment_id:     { type: integer, notnull: true }
     appointment_date: { type: date, notnull: true }
-    starts_at:        { type: time, notnull: true }
-    ends_at:          { type: time, notnull: true }
+    schedule_id:      { type: integer, notnull: true }
     appointment_type: { type: enum, values: [ basic, advanced ] }
     event_status:     { type: enum, values: [ approved, pending, billed] }
     is_synched:       { type: boolean, default: 0 }
   relations:
-    LabEquipment: { local: equipment_id, foreign: id, foreignAlias: LabAppointments }
-    LabUser:      { local: user_id, foreign: id, foreignAlias: LabAppointments }
- 
-LabEquipmentAvailability:
+    LabEquipment:             { local: equipment_id, foreign: id, foreignAlias: LabAppointments }
+    LabUser:                  { local: user_id, foreign: id, foreignAlias: LabAppointments }
+    LabEquipmentSchedule:     { local: schedule_id, foreign: id }
+
+LabEquipmentSchedule:
   columns:
     equipment_id:    { type: integer, notnull: true }
     start_time:      { type: time, notnull: true }
@@ -30,4 +30,4 @@ LabUser:
   actAs: { Timestampable: ~ }
   columns:
     name:      { type: string(255), notnull: true }
-    user_type: { type: integer(2), notnull: true, default: 0 } 
+    user_type: { type: integer(2), notnull: true, default: 0 }
