@@ -13,7 +13,7 @@
  * @property enum $event_status
  * @property boolean $is_synched
  * @property LabEquipment $LabEquipment
- * @property LabUser $LabUser
+ * @property sfGuardUser $sfGuardUser
  * @property LabEquipmentSchedule $LabEquipmentSchedule
  * 
  * @method integer              getUserId()               Returns the current record's "user_id" value
@@ -24,7 +24,7 @@
  * @method enum                 getEventStatus()          Returns the current record's "event_status" value
  * @method boolean              getIsSynched()            Returns the current record's "is_synched" value
  * @method LabEquipment         getLabEquipment()         Returns the current record's "LabEquipment" value
- * @method LabUser              getLabUser()              Returns the current record's "LabUser" value
+ * @method sfGuardUser          getSfGuardUser()          Returns the current record's "sfGuardUser" value
  * @method LabEquipmentSchedule getLabEquipmentSchedule() Returns the current record's "LabEquipmentSchedule" value
  * @method LabAppointment       setUserId()               Sets the current record's "user_id" value
  * @method LabAppointment       setEquipmentId()          Sets the current record's "equipment_id" value
@@ -34,7 +34,7 @@
  * @method LabAppointment       setEventStatus()          Sets the current record's "event_status" value
  * @method LabAppointment       setIsSynched()            Sets the current record's "is_synched" value
  * @method LabAppointment       setLabEquipment()         Sets the current record's "LabEquipment" value
- * @method LabAppointment       setLabUser()              Sets the current record's "LabUser" value
+ * @method LabAppointment       setSfGuardUser()          Sets the current record's "sfGuardUser" value
  * @method LabAppointment       setLabEquipmentSchedule() Sets the current record's "LabEquipmentSchedule" value
  * 
  * @package    BookEquip
@@ -93,7 +93,7 @@ abstract class BaseLabAppointment extends sfDoctrineRecord
              'local' => 'equipment_id',
              'foreign' => 'id'));
 
-        $this->hasOne('LabUser', array(
+        $this->hasOne('sfGuardUser', array(
              'local' => 'user_id',
              'foreign' => 'id'));
 

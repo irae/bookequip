@@ -17,6 +17,6 @@ class agendamentoActions extends sfActions
   */
   public function executeIndex(sfWebRequest $request)
   {
-    $this->foobar = LabEquipmentScheduleTable::getInstance()->dayAvaiableSchedules()->getSqlQuery();
+    $this->foobar = LabEquipmentScheduleTable::getInstance()->dayAvaiableSchedules('2011-04-04')->fetchArray();
   }
 }

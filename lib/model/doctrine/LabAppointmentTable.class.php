@@ -21,26 +21,31 @@ class LabAppointmentTable extends Doctrine_Table
 	{
 		return Doctrine_Query::create()->from('LabAppointment');
 	}
-	
-	public function userAppointments($userId)
-	{
-		$query = $this->createEmptyQuery()
-			->andWhere('user_id = ?', $userId);
-		
-		return $this->getFromThisWeek($query);
-		
-	}
-	
-	public function currentWeekAppointments(Doctrine_Query $query = null)
+
+	public function weekAppointments(Doctrine_Query $query = null)
 	{
 		if (is_null($query)) $query = $this->createEmptyQuery();
 		$query->andWhere('WEEK(appointment_date) = WEEK(NOW())');
 		return $query;
 	}
 	
+	public function userAppointments($userId)
+	{
+		$query = $this->createEmptyQuery()
+			->andWhere('user_id = ?', $userId);
+		
+		return $query;
+		
+	}
+
 	public function weekUserApointments($userId) 
 	{
 		return $this->weekAppointments($this->userAppointments($userId));
+	}
+	
+	public function userAppointmentsByStatus ($userId, $status)
+	{
+		$this->userAppointments($userId)->andWhere('event_status = ?', $status);
 	}
 	
 
