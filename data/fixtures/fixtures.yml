@@ -1,3 +1,29 @@
+LabEquipment:
+  CanhaoLaser:
+    name: Canhão Laser
+    slug: canhao-laser
+  MaquinaCafe:
+    name: Máquina de Café
+    slug: maquina-cafe
+
+LabEquipmentSchedule:
+  Schedule1:
+    LabEquipment: CanhaoLaser
+    start_time:   09:00
+    end_time:     11:00
+  Schedule2:
+    LabEquipment: CanhaoLaser
+    start_time:   14:00
+    end_time:     17:00
+  Schedule3:
+    LabEquipment: MaquinaCafe
+    start_time:   18:00
+    end_time:     12:00
+  Schedule4:
+    LabEquipment: MaquinaCafe
+    start_time:   21:00
+    end_time:     22:30
+
 sfGuardUser:
   User_admin:
     first_name:     Pedro

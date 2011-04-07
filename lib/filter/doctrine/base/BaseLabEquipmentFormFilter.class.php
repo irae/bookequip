@@ -14,11 +14,13 @@ abstract class BaseLabEquipmentFormFilter extends BaseFormFilterDoctrine
   {
     $this->setWidgets(array(
       'name'      => new sfWidgetFormFilterInput(array('with_empty' => false)),
+      'slug'      => new sfWidgetFormFilterInput(array('with_empty' => false)),
       'wiki_page' => new sfWidgetFormFilterInput(),
     ));
 
     $this->setValidators(array(
       'name'      => new sfValidatorPass(array('required' => false)),
+      'slug'      => new sfValidatorPass(array('required' => false)),
       'wiki_page' => new sfValidatorPass(array('required' => false)),
     ));
 
@@ -41,6 +43,7 @@ abstract class BaseLabEquipmentFormFilter extends BaseFormFilterDoctrine
     return array(
       'id'        => 'Number',
       'name'      => 'Text',
+      'slug'      => 'Text',
       'wiki_page' => 'Text',
     );
   }

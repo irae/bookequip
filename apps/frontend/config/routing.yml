@@ -11,6 +11,10 @@ homepage:
 default_index:
   url:   /:module
   param: { action: index }
+ 
+novo_agendamento:
+  url:   /agendamento/novo/:stage
+  param: { module: agendamento, action: novo }
 
 default:
   url:   /:module/:action/*

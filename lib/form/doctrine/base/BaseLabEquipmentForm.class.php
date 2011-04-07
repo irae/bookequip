@@ -17,17 +17,22 @@ abstract class BaseLabEquipmentForm extends BaseFormDoctrine
     $this->setWidgets(array(
       'id'        => new sfWidgetFormInputHidden(),
       'name'      => new sfWidgetFormInputText(),
+      'slug'      => new sfWidgetFormInputText(),
       'wiki_page' => new sfWidgetFormInputText(),
     ));
 
     $this->setValidators(array(
       'id'        => new sfValidatorChoice(array('choices' => array($this->getObject()->get('id')), 'empty_value' => $this->getObject()->get('id'), 'required' => false)),
       'name'      => new sfValidatorString(array('max_length' => 255)),
+      'slug'      => new sfValidatorString(array('max_length' => 255)),
       'wiki_page' => new sfValidatorString(array('max_length' => 255, 'required' => false)),
     ));
 
     $this->validatorSchema->setPostValidator(
-      new sfValidatorDoctrineUnique(array('model' => 'LabEquipment', 'column' => array('name')))
+      new sfValidatorAnd(array(
+        new sfValidatorDoctrineUnique(array('model' => 'LabEquipment', 'column' => array('name'))),
+        new sfValidatorDoctrineUnique(array('model' => 'LabEquipment', 'column' => array('slug'))),
+      ))
     );
 
     $this->widgetSchema->setNameFormat('lab_equipment[%s]');
