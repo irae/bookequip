@@ -2,18 +2,25 @@
 class AdditionalInfoForm extends BaseForm
 {
 	
+	private static $sampleTypes = array('Sólida', 'Líquida', 'Líquida Viscosa', 'Gasosa', 'Higroscópica', 'Risco Biológico', 'Explosiva', 'Corrosiva', 'Sensível à luz', 'Sensível ao ar', 'Tóxica');
+	
 	public function configure()
 	{
 		$this->setWidgets(array(
-			'experience_description' => new sfWidgetFormInputText(),
-			'university_name'        => new sfWidgetFormInputText()
+			'sample_type'      => new sfWidgetFormChoice(array('expanded' => true, 'choices' => self::$sampleTypes, 'multiple' => true)),
+			'additional_info'  => new sfWidgetFormInputText()
 			));
 		
 		$this->setValidators(array(
-			'experience_description' => new sfValidatorString(array('required' => false)),
-			'university_name'        => new sfValidatorString(array('required' => false)),
+			'sample_type'     => new sfValidatorChoice(array('required' => true, 'choices' => array_keys(self::$sampleTypes), 'multiple' => true)),
+			'additional_info' => new sfValidatorString(array('required' => false))
 		));
-	
+
+		$this->widgetSchema->setLabels(array(
+			'sample_type'     => 'Tipo de amostra',
+			'additional_info' => 'Informações Adicionais',
+		));
+
 		$this->widgetSchema->setNameFormat('appointment[%s]'); 
 	}
 

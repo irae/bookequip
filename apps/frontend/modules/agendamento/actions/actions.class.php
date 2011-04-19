@@ -11,11 +11,6 @@
 class agendamentoActions extends sfActions
 {
 
-  private static $appointmentAddStages = array(
-		'lista-equipamentos' => 'EquipmentListForm',
-		'informacoes-gerais' => 'AdditionalInfoForm',
-		'horario'            => 'SchedulleForm'
-	);
 
  /**
   * Executes index action
@@ -36,44 +31,87 @@ class agendamentoActions extends sfActions
   public function executeNovo(sfWebRequest $request)
   {
 	
-	$this->forward404Unless(array_key_exists($request->getParameter('stage'), self::$appointmentAddStages));
 	$this->currentStage = $request->getParameter('stage');
+	$this->forward404Unless(array_key_exists($this->currentStage, appointmentFormBuilder::$stages));
 	
-	$stageIndex = array_keys(self::$appointmentAddStages);
-	$stagePosition = array_flip($stageIndex);
-	$currentPosition = $stagePosition[$this->currentStage];
+	$formBuilder = new appointmentFormBuilder($this->currentStage);
+	$didJump = $formBuilder->checkStageJump();
+	$this->redirectIf($didJump, $this->generateUrl('novo_agendamento', array('stage'=>$formBuilder->redirectTo)));
 	
-	// prevents a user from jumping some stage
-	if ($currentPosition > 0) {
-		if (!isset($_SESSION['appointment_stages'])) {
-			$this->redirect('agendamento/novo/' . $stageIndex[0]);
-		} elseif (sizeof($_SESSION['appointment_stages']) < $currentPosition) {
-			$correctForm = $stageIndex[sizeof($_SESSION['appointment_stages'])];
-			$this->redirect($this->generateUrl('novo_agendamento', array('stage' => $correctForm)));
-		}
-	}
-	
-	$formClassName = self::$appointmentAddStages[$this->currentStage];
+	$formClassName = appointmentFormBuilder::$stages[$this->currentStage]['formClass'];
 	$this->form = new $formClassName(array('stage' => $this->currentStage));
 	
 	if ($request->isMethod('post')) {
 		
 		$this->form->bind($request->getParameter('appointment'));
 		if ($this->form->isValid()) {
-			
-			$_SESSION['appointment_stages'][$currentPosition] = $this->form->getValues();
-			if (array_key_exists(($currentPosition+1), $stageIndex)) {
-				$nextStage = $stageIndex[($currentPosition+1)];
-				$this->redirect($this->generateUrl('novo_agendamento', array('stage' => $nextStage)));
-			} else {
-				die('Redirecionar p/ página de resumo' . var_dump($_SESSION['appointment_stages']));
-			}
-			
+			$formBuilder->saveToSession($this->form->getValues());
+			$this->redirect($this->generateUrl('novo_agendamento', array('stage'=>$formBuilder->redirectTo)));
 		}
 		
 	}
 	
   }
+  
+  
+  public function executeResumo(sfWebRequest $request)
+  {
+	if (!isset($_SESSION['appointmentData']) ||
+		sizeof($_SESSION['appointmentData']) != sizeof(appointmentFormBuilder::$stages)) {
+		die('O formulario nao foi completamente respondido.');
+	}
+
+	$content = array();
+	
+	foreach (appointmentFormBuilder::$stages as $stageSlug => $stage) {
+		
+		$currentForm           = array();
+		$currentForm['title']  = $stage['title'];
+		$currentForm['fields'] = array();
+		
+		// Gets user answers from current form stage
+		foreach($_SESSION['appointmentData'] as $stageAnswers) {
+			if ($stageAnswers['stageName'] == $stageSlug) {
+				$userValues = $stageAnswers;
+			}
+		}
+		
+		$formData = new $stage['formClass'];
+		
+		// Builds up the array containing all the data from all the appointment form stages
+		foreach ($formData->getWidgetSchema()->getFields() as $inputName => $info) {
+			if ($inputName != '_csrf_token') {
+				$currentField = array();
+				$options = $info->getOptions();
+				$currentField['label'] = $options['label'];
+				
+				//var_dump($options);
+				
+				if (!array_key_exists('choices', $options)) {
+					$currentField['value'] = $userValues[$inputName];
+				} else {
+					if (is_array($userValues[$inputName])) {
+						$currentField['value'] = array();
+						foreach($userValues[$inputName] as $userChoice) {
+							$currentField['value'][] = $options['choices'][$userChoice];
+						}
+					} else {
+						$currentField['value'] = $options['choices'][$userValues[$inputName]];
+					}
+				}
+
+				$currentForm['fields'][$inputName] = $currentField;
+			}
+		}
+		
+		$content[] = $currentForm;
+		
+	}
+	
+	print_r($content);
+	
+  }
+  
  
  /**
   * Executes submit action
@@ -82,14 +120,6 @@ class agendamentoActions extends sfActions
   */ 
   public function executeSubmit(sfWebRequest $request)
   {
-    if ($request->getMethod() != 'POST' ||
-		!$request->hasParameter('stage') ||
-		!in_array($request->getParameter('stage'), self::$appointmentAddStages))	
-	{
-		$this->forward404();
-	}
-	
-	
 	
   }
   

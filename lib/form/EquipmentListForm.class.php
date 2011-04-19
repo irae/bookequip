@@ -17,6 +17,7 @@ class EquipmentListForm extends BaseForm
 			'equipment' => new sfWidgetFormChoice(array('expanded' => true, 'choices' => self::$equipChoices))
 		));
 		
+		$this->widgetSchema->setLabel('equipment', 'Equipamento');
 		$this->widgetSchema->setNameFormat('appointment[%s]');
 		
 		$this->setValidators(array(

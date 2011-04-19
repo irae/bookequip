@@ -34,4 +34,10 @@ class LabEquipmentScheduleTable extends Doctrine_Table
 		if (is_null($choosenDay)) $choosenDay = date('Y-m-d');
 		return $this->daySchedules($choosenDay)->andWhere('a.id IS NULL');
 	}
+	
+	public function equipmentDaySchedules($equipment, $choosenDay)
+	{
+		return $this->daySchedules($choosenDay)->andWhere('s.equipment_id = ?', $equipment);
+	}
+	
 }
