@@ -46,7 +46,11 @@ class agendamentoActions extends sfActions
 		$this->form->bind($request->getParameter('appointment'));
 		if ($this->form->isValid()) {
 			$formBuilder->saveToSession($this->form->getValues());
-			$this->redirect($this->generateUrl('novo_agendamento', array('stage'=>$formBuilder->redirectTo)));
+			if ($formBuilder->redirectTo != 'resumo') {
+				$this->redirect($this->generateUrl('novo_agendamento', array('stage'=>$formBuilder->redirectTo)));
+			} else {
+				$this->redirect($this->generateUrl('default', array('module'=>'agendamento','action'=>'resumo')));
+			}
 		}
 		
 	}
@@ -121,6 +125,42 @@ class agendamentoActions extends sfActions
   public function executeSubmit(sfWebRequest $request)
   {
 	
+	$this->forward404Unless($request->isMethod('post'));
+	
+	if (!isset($_SESSION['appointmentData']) ||
+		sizeof($_SESSION['appointmentData']) != sizeof(appointmentFormBuilder::$stages)) {
+			die('O formulario nao foi completamente respondido.');
+	}
+	
+	// Temporário
+	
+	$appointment = new LabAppointment();
+	$appointment['user_id']          = 1; // Temporário
+	$appointment['equipment_id']     = $_SESSION['appointmentData'][0]['equipment'];
+	$appointment['appointment_date'] = $_SESSION['appointmentData'][2]['appointment_date'];
+	$appointment['schedule_id']      = $_SESSION['appointmentData'][2]['schedule_time'];
+	$appointment->save();
+	
   }
   
+ 
+ /**
+  * Appointment edit action
+  *
+  * @param sfRequest $request A request object
+  */  
+  public function executeEditar(sfWebRequest $request)
+  {
+
+	$userId = 1; // Temporary!
+	
+	$this->forward404Unless(Doctrine_Query::create()->from('LabAppointment')->find(
+  
+	$this->appointmentId = $request->getParameter('id');
+	$this->formStage     = $request->getParameter('stage');
+	$formClassName = appointmentFormBuilder::$stages[$this->formStage]['formClass'];
+	$this->form = new $formClassName(array('stage' => $this->currentStage), array('editMode'=>true,'appointmentId'=>$this->appointmentId));
+	
+  }
+
 }

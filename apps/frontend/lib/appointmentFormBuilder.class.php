@@ -22,7 +22,8 @@ class appointmentFormBuilder {
 
 	public  $redirectTo = null;
 	
-	public function __construct($currentStage) {
+	public function __construct($currentStage)
+	{
 		
 		if (!isset($_SESSION['appointmentData']))
 			$_SESSION['appointmentData'] = array();
@@ -65,7 +66,7 @@ class appointmentFormBuilder {
 			$nextStage = $this->stageIndex[($this->currentPosition+1)];
 			$this->redirectTo = $nextStage;
 		} else {
-			die('Página de Resumo' . var_dump($this->submittedData));
+			$this->redirectTo = 'resumo';
 		}
 	
 	}

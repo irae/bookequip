@@ -15,6 +15,10 @@ default_index:
 novo_agendamento:
   url:   /agendamento/novo/:stage
   param: { module: agendamento, action: novo }
-
+  
+editar_agendamento:
+  url:   /agendamento/editar/:id/:stage
+  param: { module: agendamento, action: editar }
+  
 default:
   url:   /:module/:action/*
