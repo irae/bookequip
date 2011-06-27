@@ -112,8 +112,8 @@ class agendamentoActions extends sfActions
 		
 	}
 	
-	print_r($content);
-	
+	$this->resumoAgendamento = $content;
+		
   }
   
  
@@ -133,9 +133,8 @@ class agendamentoActions extends sfActions
 	}
 	
 	// Temporário
-	
 	$appointment = new LabAppointment();
-	$appointment['user_id']          = 1; // Temporário
+	$appointment['user_id']          = $this->getUser()->getGuardUser()->getId();
 	$appointment['equipment_id']     = $_SESSION['appointmentData'][0]['equipment'];
 	$appointment['appointment_date'] = $_SESSION['appointmentData'][2]['appointment_date'];
 	$appointment['schedule_id']      = $_SESSION['appointmentData'][2]['schedule_time'];
@@ -153,11 +152,9 @@ class agendamentoActions extends sfActions
   {
 
 	$userId = 1; // Temporary!
-	
-	$this->forward404Unless(Doctrine_Query::create()->from('LabAppointment')->find(
-  
 	$this->appointmentId = $request->getParameter('id');
 	$this->formStage     = $request->getParameter('stage');
+	$this->forward404Unless(Doctrine_Query::create()->from('LabAppointment')->find($this->appointmentId));  
 	$formClassName = appointmentFormBuilder::$stages[$this->formStage]['formClass'];
 	$this->form = new $formClassName(array('stage' => $this->currentStage), array('editMode'=>true,'appointmentId'=>$this->appointmentId));
 	
