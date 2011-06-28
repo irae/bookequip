@@ -132,13 +132,15 @@ class agendamentoActions extends sfActions
 			die('O formulario nao foi completamente respondido.');
 	}
 	
-	// Temporário
 	$appointment = new LabAppointment();
 	$appointment['user_id']          = $this->getUser()->getGuardUser()->getId();
 	$appointment['equipment_id']     = $_SESSION['appointmentData'][0]['equipment'];
 	$appointment['appointment_date'] = $_SESSION['appointmentData'][2]['appointment_date'];
 	$appointment['schedule_id']      = $_SESSION['appointmentData'][2]['schedule_time'];
 	$appointment->save();
+	
+	unset($_SESSION['appointmentData']);
+	//die($appointment->getId());
 	
   }
   
@@ -150,11 +152,11 @@ class agendamentoActions extends sfActions
   */  
   public function executeEditar(sfWebRequest $request)
   {
-
-	$userId = 1; // Temporary!
+	// Checar se o appointment pertence ao usuÃ¡rio
+	$userId = $this->getUser()->getGuardUser()->getId();
 	$this->appointmentId = $request->getParameter('id');
 	$this->formStage     = $request->getParameter('stage');
-	$this->forward404Unless(Doctrine_Query::create()->from('LabAppointment')->find($this->appointmentId));  
+	$this->forward404Unless(Doctrine_Core::getTable('LabAppointment')->find($this->appointmentId));  
 	$formClassName = appointmentFormBuilder::$stages[$this->formStage]['formClass'];
 	$this->form = new $formClassName(array('stage' => $this->currentStage), array('editMode'=>true,'appointmentId'=>$this->appointmentId));
 	

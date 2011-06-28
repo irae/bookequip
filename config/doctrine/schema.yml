@@ -19,10 +19,19 @@ LabAppointment:
     sfGuardUser:              { local: user_id, foreign: id, foreignAlias: LabAppointments }
     LabEquipmentSchedule:     { local: schedule_id, foreign: id }
 
+LabAppointmentInfo:
+  actAs: { Timestampable: ~ }
+  columns:
+    appointment_id: { type: integer, notnull: true }
+    info_key: { type: string(255), notnull: true }
+    info_value: { type: string(5000), notnull: true }
+  relations:
+    LabAppointment: { onDelete: CASCADE, local: appointment_id, foreign: id }
+    
 LabEquipmentSchedule:
   columns:
     equipment_id:    { type: integer, notnull: true }
     start_time:      { type: time, notnull: true }
     end_time:        { type: time, notnull: true }
   relations:
-    LabEquipment: { onDelete: CASCADE, local: equipment_id, foreign: id } 
+    LabEquipment: { onDelete: CASCADE, local: equipment_id, foreign: id }

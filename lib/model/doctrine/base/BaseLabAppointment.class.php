@@ -15,6 +15,7 @@
  * @property LabEquipment $LabEquipment
  * @property sfGuardUser $sfGuardUser
  * @property LabEquipmentSchedule $LabEquipmentSchedule
+ * @property Doctrine_Collection $LabAppointmentInfo
  * 
  * @method integer              getUserId()               Returns the current record's "user_id" value
  * @method integer              getEquipmentId()          Returns the current record's "equipment_id" value
@@ -26,6 +27,7 @@
  * @method LabEquipment         getLabEquipment()         Returns the current record's "LabEquipment" value
  * @method sfGuardUser          getSfGuardUser()          Returns the current record's "sfGuardUser" value
  * @method LabEquipmentSchedule getLabEquipmentSchedule() Returns the current record's "LabEquipmentSchedule" value
+ * @method Doctrine_Collection  getLabAppointmentInfo()   Returns the current record's "LabAppointmentInfo" collection
  * @method LabAppointment       setUserId()               Sets the current record's "user_id" value
  * @method LabAppointment       setEquipmentId()          Sets the current record's "equipment_id" value
  * @method LabAppointment       setAppointmentDate()      Sets the current record's "appointment_date" value
@@ -36,6 +38,7 @@
  * @method LabAppointment       setLabEquipment()         Sets the current record's "LabEquipment" value
  * @method LabAppointment       setSfGuardUser()          Sets the current record's "sfGuardUser" value
  * @method LabAppointment       setLabEquipmentSchedule() Sets the current record's "LabEquipmentSchedule" value
+ * @method LabAppointment       setLabAppointmentInfo()   Sets the current record's "LabAppointmentInfo" collection
  * 
  * @package    BookEquip
  * @subpackage model
@@ -100,6 +103,10 @@ abstract class BaseLabAppointment extends sfDoctrineRecord
         $this->hasOne('LabEquipmentSchedule', array(
              'local' => 'schedule_id',
              'foreign' => 'id'));
+
+        $this->hasMany('LabAppointmentInfo', array(
+             'local' => 'id',
+             'foreign' => 'appointment_id'));
 
         $timestampable0 = new Doctrine_Template_Timestampable();
         $this->actAs($timestampable0);
