@@ -5,19 +5,22 @@ class appointmentFormBuilder {
 	public static $stages = array(
 		'lista-equipamentos' => array(
 			'title' => 'Equipamentos',
-			'formClass' => 'EquipmentListForm'),
+			'formClass' => 'EquipmentListForm',
+			'editable' => false),
 		'informacoes-gerais' => array(
 			'title' => 'Informações Gerais',
-			'formClass' => 'AdditionalInfoForm'),
+			'formClass' => 'AdditionalInfoForm',
+			'editable' => true),
 		'horario' => array(
 			'title' => 'Horário',
-			'formClass' => 'SchedulleForm')
+			'formClass' => 'SchedulleForm',
+			'editable' => true)
 	);
-	
+
+	public  $stageIndex;
+	public  $stagePosition;
 	private $submittedData;
 	private $currentStage;
-	private $stageIndex;
-	private $stagePosition;
 	private $currentPosition;
 
 	public  $redirectTo = null;
@@ -69,6 +72,12 @@ class appointmentFormBuilder {
 			$this->redirectTo = 'resumo';
 		}
 	
+	}
+	
+	public static function getStagePosition($stageName) {
+		$stageIndex = array_keys(self::$stages);
+		$stagePosition = array_flip($stageIndex);
+		return $stagePosition[$stageName];
 	}
 
 }

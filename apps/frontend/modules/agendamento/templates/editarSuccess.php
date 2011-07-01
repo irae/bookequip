@@ -1,4 +1,4 @@
-<form action="<?php echo url_for('agendamento/novo') . '/' . $currentStage ?>" method="post">
+<form action="<?php echo url_for('agendamento/atualizar') . '/' . $currentStage ?>" method="post">
 <table>
 <?php echo $form ?>
 <tr>

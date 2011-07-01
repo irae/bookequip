@@ -48,6 +48,16 @@ class LabAppointmentTable extends Doctrine_Table
 		$this->userAppointments($userId)->andWhere('event_status = ?', $status);
 	}
 	
-
+	public function checkOwnership ($appointmentId, $userId)
+	{
+		$query = $this->createEmptyQuery()->where('id = ?', $appointmentId)->andWhere('user_id = ?', $userId);
+		
+		if ($query->count() > 0) {
+			return true;
+		} else {
+			return false;
+		}
+	
+	} 
 	
 }

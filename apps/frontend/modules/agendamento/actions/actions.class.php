@@ -89,8 +89,6 @@ class agendamentoActions extends sfActions
 				$options = $info->getOptions();
 				$currentField['label'] = $options['label'];
 				
-				//var_dump($options);
-				
 				if (!array_key_exists('choices', $options)) {
 					$currentField['value'] = $userValues[$inputName];
 				} else {
@@ -127,21 +125,55 @@ class agendamentoActions extends sfActions
 	
 	$this->forward404Unless($request->isMethod('post'));
 	
-	if (!isset($_SESSION['appointmentData']) ||
-		sizeof($_SESSION['appointmentData']) != sizeof(appointmentFormBuilder::$stages)) {
-			die('O formulario nao foi completamente respondido.');
+	if (!isset($_SESSION['appointmentData']) || sizeof($_SESSION['appointmentData']) != sizeof(appointmentFormBuilder::$stages))) {
+			die('Formulário de agendamento incompleto.');
 	}
 	
+	// Appointment Key Information (goes to LabAppointment Table)
 	$appointment = new LabAppointment();
 	$appointment['user_id']          = $this->getUser()->getGuardUser()->getId();
-	$appointment['equipment_id']     = $_SESSION['appointmentData'][0]['equipment'];
-	$appointment['appointment_date'] = $_SESSION['appointmentData'][2]['appointment_date'];
-	$appointment['schedule_id']      = $_SESSION['appointmentData'][2]['schedule_time'];
+	$appointment['equipment_id']     = $_SESSION['appointmentData'][appointmentFormBuilder::getStagePosition('lista-equipamentos')]['equipment'];
+	$appointment['appointment_date'] = $_SESSION['appointmentData'][appointmentFormBuilder::getStagePosition('horario')]['appointment_date'];
+	$appointment['schedule_id']      = $_SESSION['appointmentData'][appointmentFormBuilder::getStagePosition('horario')]['schedule_time'];
 	$appointment->save();
 	
-	unset($_SESSION['appointmentData']);
-	//die($appointment->getId());
+	// Additional Appointment Information (goes to LabAppointmentInfo)
+	unset($_SESSION['appointmentData'][appointmentFormBuilder::getStagePosition('informacoes-gerais')]['stageName']);
+	foreach ($_SESSION['appointmentData'][appointmentFormBuilder::getStagePosition('informacoes-gerais')] as $inputName => $inputValue) {
+		$appointmentInfo = new LabAppointmentInfo();
+		$appointmentInfo['appointment_id'] = $appointment->getId();
+		$appointmentInfo['info_key'] = $inputName;
+		if (is_array($inputValue)) {
+			$appointmentInfo['info_value'] = json_encode($inputValue);
+		} else {
+			$appointmentInfo['info_value'] = $inputValue;
+		}
+		$appointmentInfo->save();
+	}
 	
+	unset($_SESSION['appointmentData']);
+	
+  }
+
+ /**
+  * Updates an appointment stage
+  *
+  * @param sfRequest $request A request object
+  */ 
+  public function executeAtualizar(sfWebRequest $request)
+  {
+
+	$this->forward404Unless($request->isMethod('post'));
+	$this->form->bind($request->getParameter('appointment'));
+	if ($this->form->isValid()) {
+		$formBuilder->saveToSession($this->form->getValues());
+		if ($formBuilder->redirectTo != 'resumo') {
+			$this->redirect($this->generateUrl('novo_agendamento', array('stage'=>$formBuilder->redirectTo)));
+		} else {
+			$this->redirect($this->generateUrl('default', array('module'=>'agendamento','action'=>'resumo')));
+		}
+	}
+
   }
   
  
@@ -152,13 +184,18 @@ class agendamentoActions extends sfActions
   */  
   public function executeEditar(sfWebRequest $request)
   {
-	// Checar se o appointment pertence ao usuário
-	$userId = $this->getUser()->getGuardUser()->getId();
-	$this->appointmentId = $request->getParameter('id');
-	$this->formStage     = $request->getParameter('stage');
-	$this->forward404Unless(Doctrine_Core::getTable('LabAppointment')->find($this->appointmentId));  
-	$formClassName = appointmentFormBuilder::$stages[$this->formStage]['formClass'];
-	$this->form = new $formClassName(array('stage' => $this->currentStage), array('editMode'=>true,'appointmentId'=>$this->appointmentId));
+
+	$userId               =  $this->getUser()->getGuardUser()->getId();
+	$this->appointmentId  =  $request->getParameter('id');
+	$this->formStage      =  $request->getParameter('stage');
+
+	$this->forward404Unless(Doctrine_Core::getTable('LabAppointment')->checkOwnership($this->appointmentId, $userId));  
+	if (array_key_exists($this->formStage, appointmentFormBuilder::$stages) && appointmentFormBuilder::$stages[$this->formStage]['editable'] === true) {
+		$formClassName = appointmentFormBuilder::$stages[$this->formStage]['formClass'];
+		$this->form = new $formClassName(array('stage' => $this->currentStage), array('editMode'=>true,'appointmentId'=>$this->appointmentId));
+	} else {
+		$this->forward404();
+	}
 	
   }
 
