@@ -16,4 +16,48 @@ class LabAppointmentInfoTable extends Doctrine_Table
     {
         return Doctrine_Core::getTable('LabAppointmentInfo');
     }
+
+	public function updateAppointmentInfo($submittedInfo, $appointmentId) {
+		$query = Doctrine_Query::create()
+			->select('info_key')
+			->from('LabAppointmentInfo')
+			->where('appointment_id = ?', $appointmentId);
+		
+		$oldValues = array();
+		$existentKeys = $query->fetchArray();
+		
+		if (!empty($existentKeys)) {
+			foreach($existentKeys as $userEntry) {
+				$oldValues[$userEntry['info_key']] = $userEntry['id'];
+			}
+		}
+		
+		foreach($submittedInfo as $k => $v) {
+			if(array_key_exists($k, $oldValues)) {
+				// do UPDATE				
+				$obj = $this->find($oldValues[$k]);
+				if (!is_array($v)) {
+					$obj->setInfoValue($v);
+				} else {
+					$obj->setInfoValue(json_encode($v));
+				}
+				$obj->save();
+			} else {
+				// do INSERT				
+				$obj = new LabAppointmentInfo();
+				$obj->setInfoKey($k);
+				if (!is_array($v)) {
+					$obj->setInfoValue($v);
+				} else {
+					$obj->setInfoValue(json_encode($v));
+				}
+				
+				$obj->setAppointmentId($appointmentId);
+				$obj->save();
+			}
+		
+		}
+				
+	}
+
 }

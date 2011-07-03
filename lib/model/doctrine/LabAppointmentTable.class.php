@@ -43,12 +43,12 @@ class LabAppointmentTable extends Doctrine_Table
 		return $this->weekAppointments($this->userAppointments($userId));
 	}
 	
-	public function userAppointmentsByStatus ($userId, $status)
+	public function userAppointmentsByStatus($userId, $status)
 	{
 		$this->userAppointments($userId)->andWhere('event_status = ?', $status);
 	}
 	
-	public function checkOwnership ($appointmentId, $userId)
+	public function checkOwnership($appointmentId, $userId)
 	{
 		$query = $this->createEmptyQuery()->where('id = ?', $appointmentId)->andWhere('user_id = ?', $userId);
 		
@@ -58,6 +58,18 @@ class LabAppointmentTable extends Doctrine_Table
 			return false;
 		}
 	
-	} 
+	}
+	
+	public function updateSchedule($appointmentId, $appointmentDate, $scheduleTimeId)
+	{
+
+		$query = Doctrine_Query::create()->
+			update('LabAppointment')->
+			set('schedule_id', '?', $scheduleTimeId, 'appointment_date', '?', $appointmentDate)->
+			where('id = ?', $appointmentId);
+			
+		$query->execute();
+		
+	}
 	
 }

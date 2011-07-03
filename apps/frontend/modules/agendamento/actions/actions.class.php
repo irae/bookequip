@@ -125,7 +125,7 @@ class agendamentoActions extends sfActions
 	
 	$this->forward404Unless($request->isMethod('post'));
 	
-	if (!isset($_SESSION['appointmentData']) || sizeof($_SESSION['appointmentData']) != sizeof(appointmentFormBuilder::$stages))) {
+	if (!isset($_SESSION['appointmentData']) || sizeof($_SESSION['appointmentData']) != sizeof(appointmentFormBuilder::$stages)) {
 			die('Formulário de agendamento incompleto.');
 	}
 	
@@ -155,26 +155,6 @@ class agendamentoActions extends sfActions
 	
   }
 
- /**
-  * Updates an appointment stage
-  *
-  * @param sfRequest $request A request object
-  */ 
-  public function executeAtualizar(sfWebRequest $request)
-  {
-
-	$this->forward404Unless($request->isMethod('post'));
-	$this->form->bind($request->getParameter('appointment'));
-	if ($this->form->isValid()) {
-		$formBuilder->saveToSession($this->form->getValues());
-		if ($formBuilder->redirectTo != 'resumo') {
-			$this->redirect($this->generateUrl('novo_agendamento', array('stage'=>$formBuilder->redirectTo)));
-		} else {
-			$this->redirect($this->generateUrl('default', array('module'=>'agendamento','action'=>'resumo')));
-		}
-	}
-
-  }
   
  
  /**
@@ -190,9 +170,33 @@ class agendamentoActions extends sfActions
 	$this->formStage      =  $request->getParameter('stage');
 
 	$this->forward404Unless(Doctrine_Core::getTable('LabAppointment')->checkOwnership($this->appointmentId, $userId));  
-	if (array_key_exists($this->formStage, appointmentFormBuilder::$stages) && appointmentFormBuilder::$stages[$this->formStage]['editable'] === true) {
+	if (array_key_exists($this->formStage, appointmentFormBuilder::$stages) &&
+		appointmentFormBuilder::$stages[$this->formStage]['editable'] === true) {
+			
 		$formClassName = appointmentFormBuilder::$stages[$this->formStage]['formClass'];
 		$this->form = new $formClassName(array('stage' => $this->currentStage), array('editMode'=>true,'appointmentId'=>$this->appointmentId));
+		if ($request->isMethod('post')) {
+			$this->form->bind($request->getParameter('appointment'));
+			if ($this->form->isValid()) {
+				
+				$formValues = $this->form->getValues();
+				switch ($this->formStage) {
+					
+					case 'horario':
+						Doctrine_Core::getTable('LabAppointment')
+							->updateSchedule($this->appointmentId, $formValues['appointment_date'], $formValues['schedule_time']);
+						break;
+					
+					default:
+						Doctrine_Core::getTable('LabAppointmentInfo')
+							->updateAppointmentInfo($formValues, $this->appointmentId);
+						break;
+				
+				}
+				
+			}
+		}
+		
 	} else {
 		$this->forward404();
 	}
