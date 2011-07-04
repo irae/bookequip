@@ -3,6 +3,9 @@ LabEquipment:
     name:      { type: string(255), notnull: true, unique: true }
     slug:      { type: string(255), notnull: true, unique: true }
     wiki_page: { type: string(255) }
+  relations:
+    LabEquipment: { local: id, foreign: equipment_id, foreignAlias: Equipment }
+
 
 LabAppointment:
   actAs: { Timestampable: ~ }

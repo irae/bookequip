@@ -17,11 +17,11 @@
  * @property timestamp $last_login
  * @property Doctrine_Collection $Groups
  * @property Doctrine_Collection $Permissions
+ * @property LabAppointment $LabAppointment
  * @property Doctrine_Collection $sfGuardUserPermission
  * @property Doctrine_Collection $sfGuardUserGroup
  * @property sfGuardRememberKey $RememberKeys
  * @property sfGuardForgotPassword $ForgotPassword
- * @property Doctrine_Collection $LabAppointments
  * 
  * @method string                getFirstName()             Returns the current record's "first_name" value
  * @method string                getLastName()              Returns the current record's "last_name" value
@@ -35,11 +35,11 @@
  * @method timestamp             getLastLogin()             Returns the current record's "last_login" value
  * @method Doctrine_Collection   getGroups()                Returns the current record's "Groups" collection
  * @method Doctrine_Collection   getPermissions()           Returns the current record's "Permissions" collection
+ * @method LabAppointment        getLabAppointment()        Returns the current record's "LabAppointment" value
  * @method Doctrine_Collection   getSfGuardUserPermission() Returns the current record's "sfGuardUserPermission" collection
  * @method Doctrine_Collection   getSfGuardUserGroup()      Returns the current record's "sfGuardUserGroup" collection
  * @method sfGuardRememberKey    getRememberKeys()          Returns the current record's "RememberKeys" value
  * @method sfGuardForgotPassword getForgotPassword()        Returns the current record's "ForgotPassword" value
- * @method Doctrine_Collection   getLabAppointments()       Returns the current record's "LabAppointments" collection
  * @method sfGuardUser           setFirstName()             Sets the current record's "first_name" value
  * @method sfGuardUser           setLastName()              Sets the current record's "last_name" value
  * @method sfGuardUser           setEmailAddress()          Sets the current record's "email_address" value
@@ -52,11 +52,11 @@
  * @method sfGuardUser           setLastLogin()             Sets the current record's "last_login" value
  * @method sfGuardUser           setGroups()                Sets the current record's "Groups" collection
  * @method sfGuardUser           setPermissions()           Sets the current record's "Permissions" collection
+ * @method sfGuardUser           setLabAppointment()        Sets the current record's "LabAppointment" value
  * @method sfGuardUser           setSfGuardUserPermission() Sets the current record's "sfGuardUserPermission" collection
  * @method sfGuardUser           setSfGuardUserGroup()      Sets the current record's "sfGuardUserGroup" collection
  * @method sfGuardUser           setRememberKeys()          Sets the current record's "RememberKeys" value
  * @method sfGuardUser           setForgotPassword()        Sets the current record's "ForgotPassword" value
- * @method sfGuardUser           setLabAppointments()       Sets the current record's "LabAppointments" collection
  * 
  * @package    BookEquip
  * @subpackage model
@@ -136,6 +136,10 @@ abstract class BasesfGuardUser extends sfDoctrineRecord
              'local' => 'user_id',
              'foreign' => 'permission_id'));
 
+        $this->hasOne('LabAppointment', array(
+             'local' => 'id',
+             'foreign' => 'user_id'));
+
         $this->hasMany('sfGuardUserPermission', array(
              'local' => 'id',
              'foreign' => 'user_id'));
@@ -149,10 +153,6 @@ abstract class BasesfGuardUser extends sfDoctrineRecord
              'foreign' => 'user_id'));
 
         $this->hasOne('sfGuardForgotPassword as ForgotPassword', array(
-             'local' => 'id',
-             'foreign' => 'user_id'));
-
-        $this->hasMany('LabAppointment as LabAppointments', array(
              'local' => 'id',
              'foreign' => 'user_id'));
 

@@ -4,17 +4,17 @@ class appointmentFormBuilder {
 
 	public static $stages = array(
 		'lista-equipamentos' => array(
-			'title' => 'Equipamentos',
+			'title'     => 'Equipamentos',
 			'formClass' => 'EquipmentListForm',
-			'editable' => false),
+			'editable'  => false),
 		'informacoes-gerais' => array(
-			'title' => 'Informações Gerais',
+			'title'     => 'Informações Gerais',
 			'formClass' => 'AdditionalInfoForm',
-			'editable' => true),
+			'editable'  => true),
 		'horario' => array(
-			'title' => 'Horário',
+			'title'     => 'Horário',
 			'formClass' => 'SchedulleForm',
-			'editable' => true)
+			'editable'  => true)
 	);
 
 	public  $stageIndex;

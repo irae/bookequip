@@ -93,6 +93,10 @@ sfGuardUser:
       foreign: permission_id
       refClass: sfGuardUserPermission
       foreignAlias: Users
+    LabAppointment:
+      local: id
+      foreign: user_id
+      foreignAlias: User
 
 sfGuardUserPermission:
   options:
