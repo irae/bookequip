@@ -26,35 +26,57 @@ class calendarioActions extends sfActions
 	 */
 	public function executeIndex(sfWebRequest $request)
 	{
+		
 		require_once 'Zend/Loader.php';
 		Zend_Loader::loadClass('Zend_Gdata');
 		Zend_Loader::loadClass('Zend_Gdata_AuthSub');
 		Zend_Loader::loadClass('Zend_Gdata_ClientLogin');
 		Zend_Loader::loadClass('Zend_Gdata_Calendar');
-		$this->addAppointmentToCalendar(1);
+		$this->return = $this->removeEventFromCalendar(1);
+		
 	}
 	
 	private function addAppointmentToCalendar($appointmentId)
 	{
-		// TODO: Checar se agendamento existe
+		
+		// TODO: Checar se agendamento existe, se o evento no calendário existe etc.
 		$appointmentData = Doctrine_Core::getTable('LabAppointment')->find($appointmentId); 
-		echo $appointmentData->getLabEquipment()->getName();
-		exit;	
 		$gdataCal = new Zend_Gdata_Calendar($this->getClientLogin());
+		
 		$newEvent = $gdataCal->newEventEntry();
-		$newEvent->title = $gdataCal->newTitle($title);
-		$newEvent->where = array($gdataCal->newWhere($where));
-		$newEvent->content = $gdataCal->newContent("$desc");
-
+		$newEvent->title = $gdataCal->newTitle($appointmentData->getEquipment()->getName());
+		$newEvent->where = array($gdataCal->newWhere('Laboratório UNIFESP'));
+		$newEvent->content = $gdataCal->newContent('Agendamento realizado por ' . $appointmentData->getUser()->getFirstName());
+		
 		$when = $gdataCal->newWhen();
-		$when->startTime = "{$startDate}T{$startTime}:00.000{$tzOffset}:00";
-		$when->endTime = "{$endDate}T{$endTime}:00.000{$tzOffset}:00";
+		$when->startTime = $appointmentData->getAppointmentDate().'T'.$appointmentData->getScheduleInfo()->getStartTime().'-03:00';
+		$when->endTime = $appointmentData->getAppointmentDate().'T'.$appointmentData->getScheduleInfo()->getEndTime().'-03:00';
 		$newEvent->when = array($when);
-
-		// Upload the event to the calendar server
-		// A copy of the event as it is recorded on the server is returned
 		$createdEvent = $gdataCal->insertEvent($newEvent);
+		
+		$appointmentData->setCalendarUrl($createdEvent->id->text);
+		$appointmentData->setIsSynched(1);
+		$appointmentData->save();
+		
 		return $createdEvent->id->text;
+		
+	}
+	
+	private function removeEventFromCalendar($appointmentId)
+	{
+		
+		$appointmentObj = Doctrine_Core::getTable('LabAppointment')->find($appointmentId);
+		$eventURL = $appointmentObj->getCalendarUrl();
+		$service = new Zend_Gdata_Calendar($this->getClientLogin());
+		
+		try {	
+		    $event = $service->getCalendarEventEntry($eventURL);
+		} catch (Zend_Gdata_App_Exception $e) {
+		    die("Error: " . $e->getMessage());
+		}
+		
+		$event->delete();
+	
 	}
 
 }

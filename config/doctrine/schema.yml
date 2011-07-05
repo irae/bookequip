@@ -4,7 +4,7 @@ LabEquipment:
     slug:      { type: string(255), notnull: true, unique: true }
     wiki_page: { type: string(255) }
   relations:
-    LabEquipment: { local: id, foreign: equipment_id, foreignAlias: Equipment }
+    Appointments: { class: LabAppointment, local: id, foreign: equipment_id }
 
 
 LabAppointment:
@@ -15,12 +15,13 @@ LabAppointment:
     appointment_date: { type: date, notnull: true }
     schedule_id:      { type: integer, notnull: true }
     appointment_type: { type: enum, values: [ basic, advanced ] }
-    event_status:     { type: enum, values: [ approved, pending, billed] }
+    event_status:     { type: enum, values: [ approved, pending, billed ] }
+    calendar_url:     { type: string(255) }
     is_synched:       { type: boolean, default: 0 }
   relations:
-    LabEquipment:             { local: equipment_id, foreign: id, foreignAlias: LabAppointments }
-    sfGuardUser:              { local: user_id, foreign: id, foreignAlias: LabAppointments }
-    LabEquipmentSchedule:     { local: schedule_id, foreign: id }
+    Equipment:                { class: LabEquipment, local: equipment_id, foreign: id }
+    User:                     { class: sfGuardUser, local: user_id, foreign: id }
+    ScheduleInfo:             { class: LabEquipmentSchedule, local: schedule_id, foreign: id }
 
 LabAppointmentInfo:
   actAs: { Timestampable: ~ }
@@ -38,3 +39,4 @@ LabEquipmentSchedule:
     end_time:        { type: time, notnull: true }
   relations:
     LabEquipment: { onDelete: CASCADE, local: equipment_id, foreign: id }
+    LabAppointment: { local: id, foreign: schedule_id,  foreignAlias: ScheduleInfo }

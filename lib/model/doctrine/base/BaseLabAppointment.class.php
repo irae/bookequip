@@ -11,34 +11,37 @@
  * @property integer $schedule_id
  * @property enum $appointment_type
  * @property enum $event_status
+ * @property string $calendar_url
  * @property boolean $is_synched
- * @property LabEquipment $LabEquipment
- * @property sfGuardUser $sfGuardUser
- * @property LabEquipmentSchedule $LabEquipmentSchedule
+ * @property LabEquipment $Equipment
+ * @property sfGuardUser $User
+ * @property LabEquipmentSchedule $ScheduleInfo
  * @property Doctrine_Collection $LabAppointmentInfo
  * 
- * @method integer              getUserId()               Returns the current record's "user_id" value
- * @method integer              getEquipmentId()          Returns the current record's "equipment_id" value
- * @method date                 getAppointmentDate()      Returns the current record's "appointment_date" value
- * @method integer              getScheduleId()           Returns the current record's "schedule_id" value
- * @method enum                 getAppointmentType()      Returns the current record's "appointment_type" value
- * @method enum                 getEventStatus()          Returns the current record's "event_status" value
- * @method boolean              getIsSynched()            Returns the current record's "is_synched" value
- * @method LabEquipment         getLabEquipment()         Returns the current record's "LabEquipment" value
- * @method sfGuardUser          getSfGuardUser()          Returns the current record's "sfGuardUser" value
- * @method LabEquipmentSchedule getLabEquipmentSchedule() Returns the current record's "LabEquipmentSchedule" value
- * @method Doctrine_Collection  getLabAppointmentInfo()   Returns the current record's "LabAppointmentInfo" collection
- * @method LabAppointment       setUserId()               Sets the current record's "user_id" value
- * @method LabAppointment       setEquipmentId()          Sets the current record's "equipment_id" value
- * @method LabAppointment       setAppointmentDate()      Sets the current record's "appointment_date" value
- * @method LabAppointment       setScheduleId()           Sets the current record's "schedule_id" value
- * @method LabAppointment       setAppointmentType()      Sets the current record's "appointment_type" value
- * @method LabAppointment       setEventStatus()          Sets the current record's "event_status" value
- * @method LabAppointment       setIsSynched()            Sets the current record's "is_synched" value
- * @method LabAppointment       setLabEquipment()         Sets the current record's "LabEquipment" value
- * @method LabAppointment       setSfGuardUser()          Sets the current record's "sfGuardUser" value
- * @method LabAppointment       setLabEquipmentSchedule() Sets the current record's "LabEquipmentSchedule" value
- * @method LabAppointment       setLabAppointmentInfo()   Sets the current record's "LabAppointmentInfo" collection
+ * @method integer              getUserId()             Returns the current record's "user_id" value
+ * @method integer              getEquipmentId()        Returns the current record's "equipment_id" value
+ * @method date                 getAppointmentDate()    Returns the current record's "appointment_date" value
+ * @method integer              getScheduleId()         Returns the current record's "schedule_id" value
+ * @method enum                 getAppointmentType()    Returns the current record's "appointment_type" value
+ * @method enum                 getEventStatus()        Returns the current record's "event_status" value
+ * @method string               getCalendarUrl()        Returns the current record's "calendar_url" value
+ * @method boolean              getIsSynched()          Returns the current record's "is_synched" value
+ * @method LabEquipment         getEquipment()          Returns the current record's "Equipment" value
+ * @method sfGuardUser          getUser()               Returns the current record's "User" value
+ * @method LabEquipmentSchedule getScheduleInfo()       Returns the current record's "ScheduleInfo" value
+ * @method Doctrine_Collection  getLabAppointmentInfo() Returns the current record's "LabAppointmentInfo" collection
+ * @method LabAppointment       setUserId()             Sets the current record's "user_id" value
+ * @method LabAppointment       setEquipmentId()        Sets the current record's "equipment_id" value
+ * @method LabAppointment       setAppointmentDate()    Sets the current record's "appointment_date" value
+ * @method LabAppointment       setScheduleId()         Sets the current record's "schedule_id" value
+ * @method LabAppointment       setAppointmentType()    Sets the current record's "appointment_type" value
+ * @method LabAppointment       setEventStatus()        Sets the current record's "event_status" value
+ * @method LabAppointment       setCalendarUrl()        Sets the current record's "calendar_url" value
+ * @method LabAppointment       setIsSynched()          Sets the current record's "is_synched" value
+ * @method LabAppointment       setEquipment()          Sets the current record's "Equipment" value
+ * @method LabAppointment       setUser()               Sets the current record's "User" value
+ * @method LabAppointment       setScheduleInfo()       Sets the current record's "ScheduleInfo" value
+ * @method LabAppointment       setLabAppointmentInfo() Sets the current record's "LabAppointmentInfo" collection
  * 
  * @package    BookEquip
  * @subpackage model
@@ -83,6 +86,10 @@ abstract class BaseLabAppointment extends sfDoctrineRecord
               2 => 'billed',
              ),
              ));
+        $this->hasColumn('calendar_url', 'string', 255, array(
+             'type' => 'string',
+             'length' => 255,
+             ));
         $this->hasColumn('is_synched', 'boolean', null, array(
              'type' => 'boolean',
              'default' => 0,
@@ -92,15 +99,15 @@ abstract class BaseLabAppointment extends sfDoctrineRecord
     public function setUp()
     {
         parent::setUp();
-        $this->hasOne('LabEquipment', array(
+        $this->hasOne('LabEquipment as Equipment', array(
              'local' => 'equipment_id',
              'foreign' => 'id'));
 
-        $this->hasOne('sfGuardUser', array(
+        $this->hasOne('sfGuardUser as User', array(
              'local' => 'user_id',
              'foreign' => 'id'));
 
-        $this->hasOne('LabEquipmentSchedule', array(
+        $this->hasOne('LabEquipmentSchedule as ScheduleInfo', array(
              'local' => 'schedule_id',
              'foreign' => 'id'));
 

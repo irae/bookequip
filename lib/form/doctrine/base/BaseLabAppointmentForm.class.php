@@ -16,12 +16,13 @@ abstract class BaseLabAppointmentForm extends BaseFormDoctrine
   {
     $this->setWidgets(array(
       'id'               => new sfWidgetFormInputHidden(),
-      'user_id'          => new sfWidgetFormDoctrineChoice(array('model' => $this->getRelatedModelName('sfGuardUser'), 'add_empty' => false)),
-      'equipment_id'     => new sfWidgetFormDoctrineChoice(array('model' => $this->getRelatedModelName('LabEquipment'), 'add_empty' => false)),
+      'user_id'          => new sfWidgetFormDoctrineChoice(array('model' => $this->getRelatedModelName('User'), 'add_empty' => false)),
+      'equipment_id'     => new sfWidgetFormDoctrineChoice(array('model' => $this->getRelatedModelName('Equipment'), 'add_empty' => false)),
       'appointment_date' => new sfWidgetFormDate(),
-      'schedule_id'      => new sfWidgetFormDoctrineChoice(array('model' => $this->getRelatedModelName('LabEquipmentSchedule'), 'add_empty' => false)),
+      'schedule_id'      => new sfWidgetFormDoctrineChoice(array('model' => $this->getRelatedModelName('ScheduleInfo'), 'add_empty' => false)),
       'appointment_type' => new sfWidgetFormChoice(array('choices' => array('basic' => 'basic', 'advanced' => 'advanced'))),
       'event_status'     => new sfWidgetFormChoice(array('choices' => array('approved' => 'approved', 'pending' => 'pending', 'billed' => 'billed'))),
+      'calendar_url'     => new sfWidgetFormInputText(),
       'is_synched'       => new sfWidgetFormInputCheckbox(),
       'created_at'       => new sfWidgetFormDateTime(),
       'updated_at'       => new sfWidgetFormDateTime(),
@@ -29,12 +30,13 @@ abstract class BaseLabAppointmentForm extends BaseFormDoctrine
 
     $this->setValidators(array(
       'id'               => new sfValidatorChoice(array('choices' => array($this->getObject()->get('id')), 'empty_value' => $this->getObject()->get('id'), 'required' => false)),
-      'user_id'          => new sfValidatorDoctrineChoice(array('model' => $this->getRelatedModelName('sfGuardUser'))),
-      'equipment_id'     => new sfValidatorDoctrineChoice(array('model' => $this->getRelatedModelName('LabEquipment'))),
+      'user_id'          => new sfValidatorDoctrineChoice(array('model' => $this->getRelatedModelName('User'))),
+      'equipment_id'     => new sfValidatorDoctrineChoice(array('model' => $this->getRelatedModelName('Equipment'))),
       'appointment_date' => new sfValidatorDate(),
-      'schedule_id'      => new sfValidatorDoctrineChoice(array('model' => $this->getRelatedModelName('LabEquipmentSchedule'))),
+      'schedule_id'      => new sfValidatorDoctrineChoice(array('model' => $this->getRelatedModelName('ScheduleInfo'))),
       'appointment_type' => new sfValidatorChoice(array('choices' => array(0 => 'basic', 1 => 'advanced'), 'required' => false)),
       'event_status'     => new sfValidatorChoice(array('choices' => array(0 => 'approved', 1 => 'pending', 2 => 'billed'), 'required' => false)),
+      'calendar_url'     => new sfValidatorString(array('max_length' => 255, 'required' => false)),
       'is_synched'       => new sfValidatorBoolean(array('required' => false)),
       'created_at'       => new sfValidatorDateTime(),
       'updated_at'       => new sfValidatorDateTime(),

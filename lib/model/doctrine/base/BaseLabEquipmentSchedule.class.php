@@ -9,18 +9,18 @@
  * @property time $start_time
  * @property time $end_time
  * @property LabEquipment $LabEquipment
- * @property Doctrine_Collection $LabAppointment
+ * @property LabAppointment $LabAppointment
  * 
  * @method integer              getEquipmentId()    Returns the current record's "equipment_id" value
  * @method time                 getStartTime()      Returns the current record's "start_time" value
  * @method time                 getEndTime()        Returns the current record's "end_time" value
  * @method LabEquipment         getLabEquipment()   Returns the current record's "LabEquipment" value
- * @method Doctrine_Collection  getLabAppointment() Returns the current record's "LabAppointment" collection
+ * @method LabAppointment       getLabAppointment() Returns the current record's "LabAppointment" value
  * @method LabEquipmentSchedule setEquipmentId()    Sets the current record's "equipment_id" value
  * @method LabEquipmentSchedule setStartTime()      Sets the current record's "start_time" value
  * @method LabEquipmentSchedule setEndTime()        Sets the current record's "end_time" value
  * @method LabEquipmentSchedule setLabEquipment()   Sets the current record's "LabEquipment" value
- * @method LabEquipmentSchedule setLabAppointment() Sets the current record's "LabAppointment" collection
+ * @method LabEquipmentSchedule setLabAppointment() Sets the current record's "LabAppointment" value
  * 
  * @package    BookEquip
  * @subpackage model
@@ -54,7 +54,7 @@ abstract class BaseLabEquipmentSchedule extends sfDoctrineRecord
              'foreign' => 'id',
              'onDelete' => 'CASCADE'));
 
-        $this->hasMany('LabAppointment', array(
+        $this->hasOne('LabAppointment', array(
              'local' => 'id',
              'foreign' => 'schedule_id'));
     }
