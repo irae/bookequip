@@ -12,9 +12,10 @@ class appointmentFormBuilder {
 			'formClass' => 'AdditionalInfoForm',
 			'editable'  => true),
 		'horario' => array(
-			'title'     => 'Horário',
-			'formClass' => 'SchedulleForm',
-			'editable'  => true)
+			'title'     => 'Data e horário do agendamento',
+			'formClass' => 'ScheduleForm',
+			'editable'  => true,
+			'template'  => 'ScheduleFormTemplate')
 	);
 
 	public  $stageIndex;
@@ -75,7 +76,10 @@ class appointmentFormBuilder {
 	}
 	
 	public static function getStagePosition($stageName) {
-		$stageIndex = array_keys(self::$stages);
+		$stageIndex = array();
+		foreach (self::$stages as $stage) {
+			$stageIndex[] = $stage['formClass'];
+		}
 		$stagePosition = array_flip($stageIndex);
 		return $stagePosition[$stageName];
 	}

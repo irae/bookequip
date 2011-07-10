@@ -39,5 +39,5 @@ class LabEquipmentScheduleTable extends Doctrine_Table
 	{
 		return $this->daySchedules($choosenDay)->andWhere('s.equipment_id = ?', $equipment);
 	}
-	
+		
 }

@@ -27,8 +27,10 @@ LabAppointmentInfo:
   actAs: { Timestampable: ~ }
   columns:
     appointment_id: { type: integer, notnull: true }
+    form_class: { type: string(255), notnull: true }
     info_key: { type: string(255), notnull: true }
     info_value: { type: string(5000), notnull: true }
+    is_json: { type: boolean, default: 0 }
   relations:
     LabAppointment: { onDelete: CASCADE, local: appointment_id, foreign: id }
     

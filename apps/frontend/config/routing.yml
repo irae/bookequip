@@ -28,6 +28,14 @@ novo_agendamento:
 editar_agendamento:
   url:   /agendamento/editar/:id/:stage
   param: { module: agendamento, action: editar }
+
+adicionar_evento:
+  url: /calendario/adicionar/:id
+  param: { module: calendario, action: adicionar }
+  
+resumo:
+  url: /agendamento/resumo/:id
+  param: { module: agendamento, action: resumo }
   
 default:
   url:   /:module/:action/*

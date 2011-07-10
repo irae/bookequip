@@ -1,4 +1,4 @@
-<form action="<?php echo url_for('agendamento/editar?id=' . $appointmentId . '&stage=' . $formStage); ?>" method="post">
+<form action="<?php echo url_for('agendamento/editar?id=' . $appointmentId . '&stage=' . $currentStage); ?>" method="post">
 <table>
 <?php echo $form ?>
 <tr>

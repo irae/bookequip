@@ -18,7 +18,7 @@ LabEquipmentSchedule:
   Schedule3:
     LabEquipment: MaquinaCafe
     start_time:   18:00
-    end_time:     12:00
+    end_time:     19:00
   Schedule4:
     LabEquipment: MaquinaCafe
     start_time:   21:00

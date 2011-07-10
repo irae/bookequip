@@ -7,4 +7,4 @@
 </table>
 </form>
 
-<?php echo nl2br(@var_dump($_SESSION['appointmentData'])); ?>
+<?php //echo nl2br(@var_dump($_SESSION['appointmentData'])); ?>
