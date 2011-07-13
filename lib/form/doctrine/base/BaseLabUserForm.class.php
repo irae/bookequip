@@ -15,19 +15,23 @@ abstract class BaseLabUserForm extends BaseFormDoctrine
   public function setup()
   {
     $this->setWidgets(array(
-      'id'         => new sfWidgetFormInputHidden(),
-      'name'       => new sfWidgetFormInputText(),
-      'user_type'  => new sfWidgetFormInputText(),
-      'created_at' => new sfWidgetFormDateTime(),
-      'updated_at' => new sfWidgetFormDateTime(),
+      'id'               => new sfWidgetFormInputHidden(),
+      'sf_guard_user_id' => new sfWidgetFormDoctrineChoice(array('model' => $this->getRelatedModelName('User'), 'add_empty' => true)),
+      'first_name'       => new sfWidgetFormInputText(),
+      'last_name'        => new sfWidgetFormInputText(),
+      'cpf'              => new sfWidgetFormInputText(),
+      'telphone'         => new sfWidgetFormInputText(),
+      'celphone'         => new sfWidgetFormInputText(),
     ));
 
     $this->setValidators(array(
-      'id'         => new sfValidatorChoice(array('choices' => array($this->getObject()->get('id')), 'empty_value' => $this->getObject()->get('id'), 'required' => false)),
-      'name'       => new sfValidatorString(array('max_length' => 255)),
-      'user_type'  => new sfValidatorInteger(array('required' => false)),
-      'created_at' => new sfValidatorDateTime(),
-      'updated_at' => new sfValidatorDateTime(),
+      'id'               => new sfValidatorChoice(array('choices' => array($this->getObject()->get('id')), 'empty_value' => $this->getObject()->get('id'), 'required' => false)),
+      'sf_guard_user_id' => new sfValidatorDoctrineChoice(array('model' => $this->getRelatedModelName('User'), 'required' => false)),
+      'first_name'       => new sfValidatorString(array('max_length' => 255, 'required' => false)),
+      'last_name'        => new sfValidatorString(array('max_length' => 255, 'required' => false)),
+      'cpf'              => new sfValidatorString(array('max_length' => 255, 'required' => false)),
+      'telphone'         => new sfValidatorString(array('max_length' => 255, 'required' => false)),
+      'celphone'         => new sfValidatorString(array('max_length' => 255, 'required' => false)),
     ));
 
     $this->widgetSchema->setNameFormat('lab_user[%s]');

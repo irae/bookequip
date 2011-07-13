@@ -14,8 +14,8 @@ class calendarioActions extends sfActions
 	private function getClientLogin()
 	{
 		
-		$user = 'bookequip@gmail.com';
-		$pass = 'bookequip123';
+		$user = 'user';
+		$pass = 'pass';
 		$service = Zend_Gdata_Calendar::AUTH_SERVICE_NAME;
 		return $client = Zend_Gdata_ClientLogin::getHttpClient($user,$pass,$service);
 	}
@@ -73,8 +73,9 @@ class calendarioActions extends sfActions
 		} catch (Zend_Gdata_App_Exception $e) {
 		    die("Error: " . $e->getMessage());
 		}
-		
+		// TODO: Verificar se a remoção de fato ocorreu
 		$event->delete();
+		return true;
 	
 	}
 	
@@ -94,6 +95,31 @@ class calendarioActions extends sfActions
 				$this->redirect('agendamento/index');
 			} else {
 				die('Erro na adição do evento.');
+			}
+		
+		}
+		
+	}
+	
+	public function executeAtualizar (sfWebRequest $request) {
+		require_once 'Zend/Loader.php';
+		Zend_Loader::loadClass('Zend_Gdata');
+		Zend_Loader::loadClass('Zend_Gdata_AuthSub');
+		Zend_Loader::loadClass('Zend_Gdata_ClientLogin');
+		Zend_Loader::loadClass('Zend_Gdata_Calendar');
+		if (is_null($request->getParameter('id'))) {
+			die('TODO: Implementar modo rajada na adição de eventos ao calendário!');
+		} else {
+			$userId = $this->getUser()->getGuardUser()->getId();
+			$appointmentId = $request->getParameter('id');
+			$this->forward404Unless(Doctrine_Core::getTable('LabAppointment')->checkOwnership($appointmentId, $userId));
+
+			if ($this->removeEventFromCalendar($appointmentId)) {
+				if ($this->addAppointmentToCalendar($appointmentId)) {
+					$this->redirect('agendamento/resumo?id=' . $appointmentId);
+				} else {
+					die('Erro na atualização do evento.');
+				}
 			}
 		
 		}

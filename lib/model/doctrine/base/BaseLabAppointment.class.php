@@ -8,7 +8,6 @@
  * @property integer $user_id
  * @property integer $equipment_id
  * @property date $appointment_date
- * @property date $original_date
  * @property integer $schedule_id
  * @property enum $appointment_type
  * @property enum $event_status
@@ -22,7 +21,6 @@
  * @method integer              getUserId()             Returns the current record's "user_id" value
  * @method integer              getEquipmentId()        Returns the current record's "equipment_id" value
  * @method date                 getAppointmentDate()    Returns the current record's "appointment_date" value
- * @method date                 getOriginalDate()       Returns the current record's "original_date" value
  * @method integer              getScheduleId()         Returns the current record's "schedule_id" value
  * @method enum                 getAppointmentType()    Returns the current record's "appointment_type" value
  * @method enum                 getEventStatus()        Returns the current record's "event_status" value
@@ -35,7 +33,6 @@
  * @method LabAppointment       setUserId()             Sets the current record's "user_id" value
  * @method LabAppointment       setEquipmentId()        Sets the current record's "equipment_id" value
  * @method LabAppointment       setAppointmentDate()    Sets the current record's "appointment_date" value
- * @method LabAppointment       setOriginalDate()       Sets the current record's "original_date" value
  * @method LabAppointment       setScheduleId()         Sets the current record's "schedule_id" value
  * @method LabAppointment       setAppointmentType()    Sets the current record's "appointment_type" value
  * @method LabAppointment       setEventStatus()        Sets the current record's "event_status" value
@@ -65,10 +62,6 @@ abstract class BaseLabAppointment extends sfDoctrineRecord
              'notnull' => true,
              ));
         $this->hasColumn('appointment_date', 'date', null, array(
-             'type' => 'date',
-             'notnull' => true,
-             ));
-        $this->hasColumn('original_date', 'date', null, array(
              'type' => 'date',
              'notnull' => true,
              ));

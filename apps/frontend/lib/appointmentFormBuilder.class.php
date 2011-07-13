@@ -4,7 +4,7 @@ class appointmentFormBuilder {
 
 	public static $stages = array(
 		'lista-equipamentos' => array(
-			'title'     => 'Equipamentos',
+			'title'     => 'Equipamento',
 			'formClass' => 'EquipmentListForm',
 			'editable'  => false),
 		'informacoes-gerais' => array(
@@ -12,7 +12,7 @@ class appointmentFormBuilder {
 			'formClass' => 'AdditionalInfoForm',
 			'editable'  => true),
 		'horario' => array(
-			'title'     => 'Data e horário do agendamento',
+			'title'     => 'Data e Hora',
 			'formClass' => 'ScheduleForm',
 			'editable'  => true,
 			'template'  => 'ScheduleFormTemplate')

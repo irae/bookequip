@@ -26,19 +26,30 @@ LabEquipmentSchedule:
 
 sfGuardUser:
   User_admin:
-    first_name:     Pedro
-    last_name:      L.
-    email_address:  pedro@email.com
     username:       admin
     password:       admin
     is_super_admin: true
     Groups:         [Group_admin]
+    LabUser:
+      first_name: Pedro
 
 sfGuardGroup:
   Group_admin:
     name:           admin
     description:    Administrator group
     Permissions:    [Permission_admin]
+  cadastro_pendente:
+    name: cadastro pendente
+    description: Cadastro pendente
+  basico:
+    name: básico
+    description: Usuário nível básico
+  avancado_pendente:
+    name: avançado pendente
+    description: Usuário nível básico que solicitou nível avançado
+  avancado:
+    name: avançado
+    description: Usuário nível avançado
 
 sfGuardPermission:
   Permission_admin:

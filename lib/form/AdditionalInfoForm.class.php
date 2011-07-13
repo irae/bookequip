@@ -8,7 +8,7 @@ class AdditionalInfoForm extends BaseForm
 	{
 		$this->setWidgets(array(
 			'sample_type'      => new sfWidgetFormChoice(array('expanded' => true, 'choices' => self::$sampleTypes, 'multiple' => true)),
-			'additional_info'  => new sfWidgetFormInputText()
+			'additional_info'  => new sfWidgetFormInputText(array(), array('class' => 'text small'))
 			));
 		
 		$this->setValidators(array(

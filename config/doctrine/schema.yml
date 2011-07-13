@@ -27,10 +27,10 @@ LabAppointmentInfo:
   actAs: { Timestampable: ~ }
   columns:
     appointment_id: { type: integer, notnull: true }
-    form_class: { type: string(255), notnull: true }
-    info_key: { type: string(255), notnull: true }
-    info_value: { type: string(5000), notnull: true }
-    is_json: { type: boolean, default: 0 }
+    form_class:     { type: string(255), notnull: true }
+    info_key:       { type: string(255), notnull: true }
+    info_value:     { type: string(5000), notnull: true }
+    is_json:        { type: boolean, default: 0 }
   relations:
     LabAppointment: { onDelete: CASCADE, local: appointment_id, foreign: id }
     
@@ -40,5 +40,16 @@ LabEquipmentSchedule:
     start_time:      { type: time, notnull: true }
     end_time:        { type: time, notnull: true }
   relations:
-    LabEquipment: { onDelete: CASCADE, local: equipment_id, foreign: id }
-    LabAppointment: { local: id, foreign: schedule_id,  foreignAlias: ScheduleInfo }
+    LabEquipment:    { onDelete: CASCADE, local: equipment_id, foreign: id }
+    LabAppointment:  { local: id, foreign: schedule_id,  foreignAlias: ScheduleInfo }
+
+LabUser:
+  columns:
+    sf_guard_user_id: { type: integer }
+    first_name:       { type: string(255) }
+    last_name:        { type: string(255) }
+    cpf:              { type: string(255) }
+    telphone:         { type: string(255) }
+    celphone:         { type: string(255) }
+  relations:
+    User: { class: sfGuardUser, local: sf_guard_user_id, foreign: id, foreignType: one, onDelete: CASCADE }

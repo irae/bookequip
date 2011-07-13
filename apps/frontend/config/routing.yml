@@ -13,13 +13,6 @@ sf_guard_signin:
 sf_guard_signout:
   url:   /logout
   param: { module: sfGuardAuth, action: signout }
-
-
-# generic rules
-# please, remove them by adding more specific rules
-default_index:
-  url:   /:module
-  param: { action: index }
  
 novo_agendamento:
   url:   /agendamento/novo/:stage
@@ -32,10 +25,20 @@ editar_agendamento:
 adicionar_evento:
   url: /calendario/adicionar/:id
   param: { module: calendario, action: adicionar }
+
+editar_evento:
+  url: /calendario/atualizar/:id
+  param: { module: calendario, action: atualizar }
   
 resumo:
   url: /agendamento/resumo/:id
   param: { module: agendamento, action: resumo }
-  
+    
+# generic rules
+# please, remove them by adding more specific rules
+default_index:
+  url:   /:module
+  param: { action: index }
+
 default:
   url:   /:module/:action/*

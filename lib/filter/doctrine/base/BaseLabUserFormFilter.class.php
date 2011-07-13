@@ -13,17 +13,21 @@ abstract class BaseLabUserFormFilter extends BaseFormFilterDoctrine
   public function setup()
   {
     $this->setWidgets(array(
-      'name'       => new sfWidgetFormFilterInput(array('with_empty' => false)),
-      'user_type'  => new sfWidgetFormFilterInput(array('with_empty' => false)),
-      'created_at' => new sfWidgetFormFilterDate(array('from_date' => new sfWidgetFormDate(), 'to_date' => new sfWidgetFormDate(), 'with_empty' => false)),
-      'updated_at' => new sfWidgetFormFilterDate(array('from_date' => new sfWidgetFormDate(), 'to_date' => new sfWidgetFormDate(), 'with_empty' => false)),
+      'sf_guard_user_id' => new sfWidgetFormDoctrineChoice(array('model' => $this->getRelatedModelName('User'), 'add_empty' => true)),
+      'first_name'       => new sfWidgetFormFilterInput(),
+      'last_name'        => new sfWidgetFormFilterInput(),
+      'cpf'              => new sfWidgetFormFilterInput(),
+      'telphone'         => new sfWidgetFormFilterInput(),
+      'celphone'         => new sfWidgetFormFilterInput(),
     ));
 
     $this->setValidators(array(
-      'name'       => new sfValidatorPass(array('required' => false)),
-      'user_type'  => new sfValidatorSchemaFilter('text', new sfValidatorInteger(array('required' => false))),
-      'created_at' => new sfValidatorDateRange(array('required' => false, 'from_date' => new sfValidatorDateTime(array('required' => false, 'datetime_output' => 'Y-m-d 00:00:00')), 'to_date' => new sfValidatorDateTime(array('required' => false, 'datetime_output' => 'Y-m-d 23:59:59')))),
-      'updated_at' => new sfValidatorDateRange(array('required' => false, 'from_date' => new sfValidatorDateTime(array('required' => false, 'datetime_output' => 'Y-m-d 00:00:00')), 'to_date' => new sfValidatorDateTime(array('required' => false, 'datetime_output' => 'Y-m-d 23:59:59')))),
+      'sf_guard_user_id' => new sfValidatorDoctrineChoice(array('required' => false, 'model' => $this->getRelatedModelName('User'), 'column' => 'id')),
+      'first_name'       => new sfValidatorPass(array('required' => false)),
+      'last_name'        => new sfValidatorPass(array('required' => false)),
+      'cpf'              => new sfValidatorPass(array('required' => false)),
+      'telphone'         => new sfValidatorPass(array('required' => false)),
+      'celphone'         => new sfValidatorPass(array('required' => false)),
     ));
 
     $this->widgetSchema->setNameFormat('lab_user_filters[%s]');
@@ -43,11 +47,13 @@ abstract class BaseLabUserFormFilter extends BaseFormFilterDoctrine
   public function getFields()
   {
     return array(
-      'id'         => 'Number',
-      'name'       => 'Text',
-      'user_type'  => 'Number',
-      'created_at' => 'Date',
-      'updated_at' => 'Date',
+      'id'               => 'Number',
+      'sf_guard_user_id' => 'ForeignKey',
+      'first_name'       => 'Text',
+      'last_name'        => 'Text',
+      'cpf'              => 'Text',
+      'telphone'         => 'Text',
+      'celphone'         => 'Text',
     );
   }
 }

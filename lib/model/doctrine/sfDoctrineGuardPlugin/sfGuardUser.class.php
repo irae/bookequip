@@ -13,4 +13,16 @@
 class sfGuardUser extends PluginsfGuardUser
 {
 
+	public function getProfileFirstName() {
+		return $this->getLabUser()->getFirstName();
+	}
+
+	public function getProfileLastName() {
+		return $this->getLabUser()->getLastName();
+	}
+
+	public function getProfileEmailAddress() {
+		return $this->getLabUser()->getEmailAddress();
+	}
+
 }

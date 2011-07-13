@@ -1,0 +1,33 @@
+generator:
+  class: sfDoctrineGenerator
+  param:
+    model_class:           sfGuardUser
+    theme:                 admin
+    non_verbose_templates: true
+    with_show:             false
+    singular:              ~
+    plural:                ~
+    route_prefix:          sf_guard_user
+    with_doctrine_route:   true
+    actions_base_class:    sfActions
+
+    config:
+      actions: ~
+      fields:
+        profile_first_name:
+          label: Nome
+        profile_last_name:
+          label: Sobrenome
+        email_address:
+          label: Email
+      list:
+        display: [id, =username, profile_first_name, profile_last_name, email_address]
+      filter:
+        display: [username, email_address, groups_list]
+      form:
+        class: sfGuardUserAdminForm
+        display:
+          "NONE":   [username, email_address, password, password_again, LabUser]
+          "Permissions and groups": [is_active, is_super_admin, groups_list, permissions_list]
+      edit:    ~
+      new:     ~

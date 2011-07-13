@@ -12,5 +12,13 @@ class LabUserForm extends BaseLabUserForm
 {
   public function configure()
   {
+		$this->widgetSchema->setLabels(array(
+			'first_name'     => 'Nome',
+			'last_name' => 'Sobrenome',
+			'cpf' => 'CPF',
+			'telphone' => '(DDD) Telefone',
+			'celphone' => '(DDD) Celular' 
+			
+		));
   }
 }

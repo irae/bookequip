@@ -18,15 +18,8 @@ class agendamentoActions extends sfActions
 	 */
 	public function executeIndex(sfWebRequest $request)
 	{
-
+		
 		$userInfo = $this->getUser()->getGuardUser();
-		
-		if (!is_null($userInfo->getFirstName())) {
-			$this->welcomeName = $userInfo->getFirstName();
-		} else {
-			$this->welcomeName = $userInfo->getUserName();
-		}
-		
 		$this->lastAppointments = Doctrine_Core::getTable('LabAppointment')->queryLastUserAppointments($userInfo->getId(), 10);
 		
 	}
@@ -164,7 +157,6 @@ class agendamentoActions extends sfActions
 		
 		$selectedSchedule = explode('.', $_SESSION['appointmentData'][appointmentFormBuilder::getStagePosition('ScheduleForm')]['schedule']);
 		$appointment['appointment_date'] = $selectedSchedule[0];
-		$appointment['original_date'] = $selectedSchedule[0];
 		$appointment['schedule_id'] = $selectedSchedule[1];
 		$appointment->save();
 		
@@ -192,7 +184,7 @@ class agendamentoActions extends sfActions
 		}
 	
 		unset($_SESSION['appointmentData']);
-		$this->redirect('agendamento/index');
+		$this->redirect('calendario/adicionar?id=' . $appointment->getId());
 	
 	}
 
@@ -228,6 +220,8 @@ class agendamentoActions extends sfActions
 
 			if (array_key_exists('template', $stageConfigArray)) {
 				$this->setTemplate($stageConfigArray['template']);
+			} else {
+				$this->setTemplate('novo');
 			}
 			
 			if ($request->isMethod('post')) {
@@ -241,6 +235,7 @@ class agendamentoActions extends sfActions
 							$selectedSchedule = explode('.', $formValues['schedule']);
 							Doctrine_Core::getTable('LabAppointment')
 								->updateSchedule($this->appointmentId, $selectedSchedule[0], $selectedSchedule[1]);
+							$this->redirect('calendario/atualizar?id=' . $this->appointmentId);
 							break;
 
 						default:
