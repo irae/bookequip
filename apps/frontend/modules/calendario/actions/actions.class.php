@@ -49,10 +49,9 @@ class calendarioActions extends sfActions
 		$gdataCal = new Zend_Gdata_Calendar($this->getClientLogin());
 		
 		$newEvent = $gdataCal->newEventEntry();
-		$newEvent->title = $gdataCal->newTitle($appointmentData->getEquipment()->getName());
+		$newEvent->title = $gdataCal->newTitle($appointmentData->getUser()->getProfileFirstName());
 		$newEvent->where = array($gdataCal->newWhere('Laboratório UNIFESP'));
-		$newEvent->content = $gdataCal->newContent('Agendamento realizado por ' . $appointmentData->getUser()->getFirstName());
-		
+		$newEvent->content = $gdataCal->newContent($appointmentData->getEquipment()->getName());
 		$when = $gdataCal->newWhen();
 		$when->startTime = $appointmentData->getAppointmentDate().'T'.$appointmentData->getScheduleInfo()->getStartTime().'-03:00';
 		$when->endTime = $appointmentData->getAppointmentDate().'T'.$appointmentData->getScheduleInfo()->getEndTime().'-03:00';
