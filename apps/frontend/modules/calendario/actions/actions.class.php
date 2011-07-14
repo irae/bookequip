@@ -14,10 +14,22 @@ class calendarioActions extends sfActions
 	private function getClientLogin()
 	{
 		
-		$user = 'user';
-		$pass = 'pass';
+		$user = 'bookequip@gmail.com';
+		$pass = 'bookequip123';
 		$service = Zend_Gdata_Calendar::AUTH_SERVICE_NAME;
-		return $client = Zend_Gdata_ClientLogin::getHttpClient($user,$pass,$service);
+		try {
+		   $client = Zend_Gdata_ClientLogin::getHttpClient($user, $pass, $service);
+		} catch (Zend_Gdata_App_CaptchaRequiredException $cre) {
+			$this->getUser()->setAttribute('captcha', array(
+				'appointment_id' => $this->appointmentId,
+				'image_url' => $cre->getCaptchaUrl(),
+				'token' => $cre->getCaptchaToken()));
+			$this->redirect('calendario/autenticar');					
+		} catch (Zend_Gdata_App_AuthException $ae) {			
+		   echo 'Problem authenticating: ' . $ae->exception() . "\n";
+		}
+		
+		return $client;
 	}
 
 	/**
@@ -80,6 +92,7 @@ class calendarioActions extends sfActions
 	}
 	
 	public function executeAdicionar (sfWebRequest $request) {
+		set_include_path(get_include_path() . PATH_SEPARATOR . sfConfig::get("sf_root_dir") . '/apps/frontend/lib');
 		require_once 'Zend/Loader.php';
 		Zend_Loader::loadClass('Zend_Gdata');
 		Zend_Loader::loadClass('Zend_Gdata_AuthSub');
@@ -111,18 +124,25 @@ class calendarioActions extends sfActions
 			die('TODO: Implementar modo rajada na adição de eventos ao calendário!');
 		} else {
 			$userId = $this->getUser()->getGuardUser()->getId();
-			$appointmentId = $request->getParameter('id');
-			$this->forward404Unless(Doctrine_Core::getTable('LabAppointment')->checkOwnership($appointmentId, $userId));
+			$this->appointmentId = $request->getParameter('id');
+			$this->forward404Unless(Doctrine_Core::getTable('LabAppointment')->checkOwnership($this->appointmentId, $userId));
 
-			if ($this->removeEventFromCalendar($appointmentId)) {
-				if ($this->addAppointmentToCalendar($appointmentId)) {
-					$this->redirect('agendamento/resumo?id=' . $appointmentId);
+			if ($this->removeEventFromCalendar($this->appointmentId)) {
+				if ($this->addAppointmentToCalendar($this->appointmentId)) {
+					$this->redirect('agendamento/resumo?id=' . $this->appointmentId);
 				} else {
 					die('Erro na atualização do evento.');
 				}
 			}
 		
 		}
+		
+	}
+	
+	public function executeAutenticar (sfWebRequest $request) {
+		
+		$this->$captchaInfo = $this->getUser()->getAttribute('captcha', null);
+		if (is_null($captchaInfo)) $this->forward404();
 		
 	}
 

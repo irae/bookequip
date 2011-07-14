@@ -185,7 +185,7 @@ class agendamentoActions extends sfActions
 	
 		unset($_SESSION['appointmentData']);
 		$this->redirect('calendario/adicionar?id=' . $appointment->getId());
-	
+		//$this->redirect('agendamento/index');
 	}
 
   

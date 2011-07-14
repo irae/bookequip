@@ -1,8 +1,9 @@
 LabEquipment:
   columns:
-    name:      { type: string(255), notnull: true, unique: true }
-    slug:      { type: string(255), notnull: true, unique: true }
-    wiki_page: { type: string(255) }
+    name:         { type: string(255), notnull: true, unique: true }
+    slug:         { type: string(255), notnull: true, unique: true }
+    wiki_page:    { type: string(255) }
+    calendar_url: { type: string(255) }
   relations:
     Appointments: { class: LabAppointment, local: id, foreign: equipment_id }
 

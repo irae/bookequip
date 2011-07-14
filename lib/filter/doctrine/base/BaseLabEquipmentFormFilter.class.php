@@ -13,15 +13,17 @@ abstract class BaseLabEquipmentFormFilter extends BaseFormFilterDoctrine
   public function setup()
   {
     $this->setWidgets(array(
-      'name'      => new sfWidgetFormFilterInput(array('with_empty' => false)),
-      'slug'      => new sfWidgetFormFilterInput(array('with_empty' => false)),
-      'wiki_page' => new sfWidgetFormFilterInput(),
+      'name'         => new sfWidgetFormFilterInput(array('with_empty' => false)),
+      'slug'         => new sfWidgetFormFilterInput(array('with_empty' => false)),
+      'wiki_page'    => new sfWidgetFormFilterInput(),
+      'calendar_url' => new sfWidgetFormFilterInput(),
     ));
 
     $this->setValidators(array(
-      'name'      => new sfValidatorPass(array('required' => false)),
-      'slug'      => new sfValidatorPass(array('required' => false)),
-      'wiki_page' => new sfValidatorPass(array('required' => false)),
+      'name'         => new sfValidatorPass(array('required' => false)),
+      'slug'         => new sfValidatorPass(array('required' => false)),
+      'wiki_page'    => new sfValidatorPass(array('required' => false)),
+      'calendar_url' => new sfValidatorPass(array('required' => false)),
     ));
 
     $this->widgetSchema->setNameFormat('lab_equipment_filters[%s]');
@@ -41,10 +43,11 @@ abstract class BaseLabEquipmentFormFilter extends BaseFormFilterDoctrine
   public function getFields()
   {
     return array(
-      'id'        => 'Number',
-      'name'      => 'Text',
-      'slug'      => 'Text',
-      'wiki_page' => 'Text',
+      'id'           => 'Number',
+      'name'         => 'Text',
+      'slug'         => 'Text',
+      'wiki_page'    => 'Text',
+      'calendar_url' => 'Text',
     );
   }
 }

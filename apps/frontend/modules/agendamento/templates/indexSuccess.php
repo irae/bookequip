@@ -4,6 +4,9 @@
 		<div class="bheadl"></div>
 		<div class="bheadr"></div>	
 		<h2>Meus Agendamentos</h2>
+		<ul class="tabs">
+			<li><a href="<?php echo url_for('agendamento/novo') ?>">Novo agendamento</a></li>
+		</ul>
 	</div>		<!-- .block_head ends -->
 	
 	

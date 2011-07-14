@@ -15,17 +15,19 @@ abstract class BaseLabEquipmentForm extends BaseFormDoctrine
   public function setup()
   {
     $this->setWidgets(array(
-      'id'        => new sfWidgetFormInputHidden(),
-      'name'      => new sfWidgetFormInputText(),
-      'slug'      => new sfWidgetFormInputText(),
-      'wiki_page' => new sfWidgetFormInputText(),
+      'id'           => new sfWidgetFormInputHidden(),
+      'name'         => new sfWidgetFormInputText(),
+      'slug'         => new sfWidgetFormInputText(),
+      'wiki_page'    => new sfWidgetFormInputText(),
+      'calendar_url' => new sfWidgetFormInputText(),
     ));
 
     $this->setValidators(array(
-      'id'        => new sfValidatorChoice(array('choices' => array($this->getObject()->get('id')), 'empty_value' => $this->getObject()->get('id'), 'required' => false)),
-      'name'      => new sfValidatorString(array('max_length' => 255)),
-      'slug'      => new sfValidatorString(array('max_length' => 255)),
-      'wiki_page' => new sfValidatorString(array('max_length' => 255, 'required' => false)),
+      'id'           => new sfValidatorChoice(array('choices' => array($this->getObject()->get('id')), 'empty_value' => $this->getObject()->get('id'), 'required' => false)),
+      'name'         => new sfValidatorString(array('max_length' => 255)),
+      'slug'         => new sfValidatorString(array('max_length' => 255)),
+      'wiki_page'    => new sfValidatorString(array('max_length' => 255, 'required' => false)),
+      'calendar_url' => new sfValidatorString(array('max_length' => 255, 'required' => false)),
     ));
 
     $this->validatorSchema->setPostValidator(
