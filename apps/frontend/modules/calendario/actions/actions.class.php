@@ -16,7 +16,7 @@ class calendarioActions extends sfActions
 		require_once(sfConfig::get("sf_root_dir") . '/apps/frontend/modules/calendario/config/calendar-config.inc.php');
 		$service = Zend_Gdata_Calendar::AUTH_SERVICE_NAME;
 		try {
-		   $client = Zend_Gdata_ClientLogin::getHttpClient($user, $pass, $service);
+		   $client = Zend_Gdata_ClientLogin::getHttpClient(sfConfig::get('calendar_user'), sfConfig::get('calendar_pass'), $service);
 		} catch (Zend_Gdata_App_CaptchaRequiredException $cre) {
 			$this->getUser()->setAttribute('captcha', array(
 				'appointment_id' => $this->appointmentId,
@@ -75,6 +75,7 @@ class calendarioActions extends sfActions
 	
 	private function removeEventFromCalendar($appointmentId)
 	{
+		set_include_path(get_include_path() . PATH_SEPARATOR . sfConfig::get("sf_root_dir") . '/apps/frontend/lib');
 		require_once 'Zend/Loader.php';
 		Zend_Loader::loadClass('Zend_Gdata');
 		Zend_Loader::loadClass('Zend_Gdata_AuthSub');
@@ -119,6 +120,8 @@ class calendarioActions extends sfActions
 	}
 	
 	public function executeAtualizar (sfWebRequest $request) {
+		
+		set_include_path(get_include_path() . PATH_SEPARATOR . sfConfig::get("sf_root_dir") . '/apps/frontend/lib');
 		require_once 'Zend/Loader.php';
 		Zend_Loader::loadClass('Zend_Gdata');
 		Zend_Loader::loadClass('Zend_Gdata_AuthSub');

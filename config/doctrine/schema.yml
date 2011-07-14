@@ -47,7 +47,7 @@ LabEquipmentSchedule:
 LabUser:
   columns:
     sf_guard_user_id: { type: integer }
-    first_name:       { type: string(255) }
+    first_name:       { type: string(255), notnull: true }
     last_name:        { type: string(255) }
     cpf:              { type: string(255) }
     telphone:         { type: string(255) }

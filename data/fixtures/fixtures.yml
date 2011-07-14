@@ -33,7 +33,7 @@ sfGuardUser:
     is_super_admin: true
     Groups:         [Group_admin]
     LabUser:
-      first_name: Pedro
+      first_name: Administrador
 
 sfGuardGroup:
   Group_admin:

@@ -27,7 +27,7 @@ abstract class BaseLabUserForm extends BaseFormDoctrine
     $this->setValidators(array(
       'id'               => new sfValidatorChoice(array('choices' => array($this->getObject()->get('id')), 'empty_value' => $this->getObject()->get('id'), 'required' => false)),
       'sf_guard_user_id' => new sfValidatorDoctrineChoice(array('model' => $this->getRelatedModelName('User'), 'required' => false)),
-      'first_name'       => new sfValidatorString(array('max_length' => 255, 'required' => false)),
+      'first_name'       => new sfValidatorString(array('max_length' => 255)),
       'last_name'        => new sfValidatorString(array('max_length' => 255, 'required' => false)),
       'cpf'              => new sfValidatorString(array('max_length' => 255, 'required' => false)),
       'telphone'         => new sfValidatorString(array('max_length' => 255, 'required' => false)),

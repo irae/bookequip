@@ -14,7 +14,7 @@ abstract class BaseLabUserFormFilter extends BaseFormFilterDoctrine
   {
     $this->setWidgets(array(
       'sf_guard_user_id' => new sfWidgetFormDoctrineChoice(array('model' => $this->getRelatedModelName('User'), 'add_empty' => true)),
-      'first_name'       => new sfWidgetFormFilterInput(),
+      'first_name'       => new sfWidgetFormFilterInput(array('with_empty' => false)),
       'last_name'        => new sfWidgetFormFilterInput(),
       'cpf'              => new sfWidgetFormFilterInput(),
       'telphone'         => new sfWidgetFormFilterInput(),

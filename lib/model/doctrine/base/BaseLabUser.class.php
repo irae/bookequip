@@ -43,6 +43,7 @@ abstract class BaseLabUser extends sfDoctrineRecord
              ));
         $this->hasColumn('first_name', 'string', 255, array(
              'type' => 'string',
+             'notnull' => true,
              'length' => 255,
              ));
         $this->hasColumn('last_name', 'string', 255, array(

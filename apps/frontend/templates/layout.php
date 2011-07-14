@@ -38,7 +38,7 @@
 				<ul id="nav">
 					<li><a href="<?php echo url_for('calendario/index'); ?>">Calendário</a></li>
 					<li><a href="#">Equipamentos</a></li>
-					<li class="active"><a href="<?php echo url_for('agendamento/index'); ?>">Agendamentos</a>
+					<li><a href="<?php echo url_for('agendamento/index'); ?>">Agendamentos</a>
 						<?php if (sfContext::getInstance()->getUser()->getGuardUser()): ?>
 						<ul>
 							<li><a href="<?php echo url_for('agendamento/novo'); ?>">Novo agendamento</a></li>
