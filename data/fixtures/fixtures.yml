@@ -1,26 +1,28 @@
 LabEquipment:
-  CanhaoLaser:
-    name: Canhão Laser
-    slug: canhao-laser
-  MaquinaCafe:
-    name: Máquina de Café
-    slug: maquina-cafe
+  EquipamentoA:
+    name: Equipamento A
+    slug: equipamento-a
+    calendar_url: r9vr5qv2qr7e3673ecjm5rl12o@group.calendar.google.com
+  EquipamentoB:
+    name: Equipamento B
+    slug: equipamento-b
+    calendar_url: 9ttf2535a7l5ktn81ds43brk54@group.calendar.google.com
 
 LabEquipmentSchedule:
   Schedule1:
-    LabEquipment: CanhaoLaser
+    LabEquipment: EquipamentoA
     start_time:   09:00
     end_time:     11:00
   Schedule2:
-    LabEquipment: CanhaoLaser
+    LabEquipment: EquipamentoA
     start_time:   14:00
     end_time:     17:00
   Schedule3:
-    LabEquipment: MaquinaCafe
+    LabEquipment: EquipamentoB
     start_time:   18:00
     end_time:     19:00
   Schedule4:
-    LabEquipment: MaquinaCafe
+    LabEquipment: EquipamentoB
     start_time:   21:00
     end_time:     22:30
 

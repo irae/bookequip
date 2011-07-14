@@ -11,7 +11,7 @@
 	
 	<div class="block_content">
 
-	<iframe src="https://www.google.com/calendar/embed?showTitle=0&amp;showCalendars=0&amp;height=700&amp;wkst=1&amp;bgcolor=%23FFFFFF&amp;src=bookequip%40gmail.com&amp;color=%23182C57&amp;ctz=America%2FSao_Paulo" style=" border-width:0 " width="1090" height="700" frameborder="0" scrolling="no"></iframe>
+	<iframe src="https://www.google.com/calendar/embed?showTitle=0&amp;height=600&amp;wkst=1&amp;bgcolor=%23FFFFFF&amp;src=r9vr5qv2qr7e3673ecjm5rl12o%40group.calendar.google.com&amp;color=%2329527A&amp;src=9ttf2535a7l5ktn81ds43brk54%40group.calendar.google.com&amp;color=%2342104A&amp;ctz=America%2FSao_Paulo" style=" border-width:0 " width="1090" height="600" frameborder="0" scrolling="no"></iframe>
 	
 	</div>		<!-- .block_content ends -->
 	

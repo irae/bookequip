@@ -2,3 +2,4 @@ cache/*
 log/*
 config/databases.yml
 *.tmproj
+apps/frontend/modules/calendario/config/calendar-config.inc.php

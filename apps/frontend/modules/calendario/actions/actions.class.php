@@ -13,9 +13,7 @@ class calendarioActions extends sfActions
 
 	private function getClientLogin()
 	{
-		
-		$user = 'bookequip@gmail.com';
-		$pass = 'bookequip123';
+		require_once(sfConfig::get("sf_root_dir") . '/apps/frontend/modules/calendario/config/calendar-config.inc.php');
 		$service = Zend_Gdata_Calendar::AUTH_SERVICE_NAME;
 		try {
 		   $client = Zend_Gdata_ClientLogin::getHttpClient($user, $pass, $service);
@@ -59,8 +57,14 @@ class calendarioActions extends sfActions
 		$when->startTime = $appointmentData->getAppointmentDate().'T'.$appointmentData->getScheduleInfo()->getStartTime().'-03:00';
 		$when->endTime = $appointmentData->getAppointmentDate().'T'.$appointmentData->getScheduleInfo()->getEndTime().'-03:00';
 		$newEvent->when = array($when);
-		$createdEvent = $gdataCal->insertEvent($newEvent);
+		
+		$equipmentInfo = Doctrine::getTable('LabEquipment')->find($appointmentData->getEquipmentId());
+		$calendarUrl = str_replace('@', '%40', $equipmentInfo->getCalendarUrl());
+		
 		// TODO: Verificar se o evento foi ou não adicionado corretamente ao Google Calendar
+		$createdEvent = $gdataCal->insertEvent($newEvent, 'http://www.google.com/calendar/feeds/' . $calendarUrl . '/private/full');
+		
+		// Informa ao sistema que o agendamento foi adicionado ao calendário
 		$appointmentData->setCalendarUrl($createdEvent->id->text);
 		$appointmentData->setIsSynched(1);
 		$appointmentData->save();
