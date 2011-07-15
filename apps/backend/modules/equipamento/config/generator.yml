@@ -4,7 +4,7 @@ generator:
     model_class:           LabEquipment
     theme:                 admin
     non_verbose_templates: true
-    with_show:             false
+    with_show:             true
     singular:              ~
     plural:                ~
     route_prefix:          lab_equipment

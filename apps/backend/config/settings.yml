@@ -4,7 +4,7 @@
 prod:
   .settings:
     no_script_name:         false
-    logging_enabled:        false
+    logging_enabled:        true
 
 dev:
   .settings:

@@ -67,7 +67,7 @@
 	
 		<h2>Ainda não sou registrado.</h2>
 		<p>Quisque felis nunc, lacinia at, viverra sit amet ligula. Praesent justo risus, suscipit eget volutpat ac, fermentum ac massa. Sed at justo velit. Maecenas dapibus sem nec quam cursus.</p>
-		<form>
+		<form action="<?php echo url_for('cadastro/index') ?>" method="post">
 		<p><input type="submit" value="Fazer Cadastro" class="submit long" /></p>
 		</form>
 		

@@ -13,7 +13,11 @@ sf_guard_signin:
 sf_guard_signout:
   url:   /logout
   param: { module: sfGuardAuth, action: signout }
- 
+  
+editar_cadastro:
+    url: /meu-perfil
+    param: { module: cadastro, action: edit }
+
 novo_agendamento:
   url:   /agendamento/novo/:stage
   param: { module: agendamento, action: novo }

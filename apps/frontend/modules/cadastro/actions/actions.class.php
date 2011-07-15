@@ -13,6 +13,7 @@ class cadastroActions extends sfActions
 
 	public function executeIndex(sfWebRequest $request)
 	{
+		
 		$this->form = new sfGuardUserForm();
 	}
 
@@ -26,7 +27,8 @@ class cadastroActions extends sfActions
 
 	public function executeEdit(sfWebRequest $request)
 	{
-		$this->forward404Unless($sf_guard_user = Doctrine_Core::getTable('sfGuardUser')->find(array($request->getParameter('id'))), sprintf('Object sf_guard_user does not exist (%s).', $request->getParameter('id')));
+		$this->forward404Unless($this->getUser()->isAuthenticated());
+		$sf_guard_user = Doctrine_Core::getTable('sfGuardUser')->find($this->getUser()->getGuardUser()->getId());
 		$this->form = new sfGuardUserForm($sf_guard_user);
 	}
 
@@ -45,8 +47,9 @@ class cadastroActions extends sfActions
 	{
 		$request->checkCSRFProtection();
 		$this->forward404Unless($sf_guard_user = Doctrine_Core::getTable('sfGuardUser')->find(array($request->getParameter('id'))), sprintf('Object sf_guard_user does not exist (%s).', $request->getParameter('id')));
+		$this->getUser()->signOut();
 		$sf_guard_user->delete();
-		$this->redirect('cadastro/index');
+		$this->redirect('sfGuardAuth/signin');
 	}
 
 	protected function processForm(sfWebRequest $request, sfForm $form)
@@ -57,10 +60,13 @@ class cadastroActions extends sfActions
 				$sf_guard_user = $form->save();
 				// Vincula o cadastramento ao grupo 'cadastro pendente', para posterior liberação de uso pelo admin
 				$sf_guard_user->addGroupByName('cadastro pendente');
+				$this->redirect('sfGuardAuth/signin');
 			} else {
 				$sf_guard_user = $form->save();
+				$this->redirect('cadastro/edit');
 			}
-			$this->redirect('cadastro/edit?id='.$sf_guard_user->getId());
+
+
 		}
 	}
 }

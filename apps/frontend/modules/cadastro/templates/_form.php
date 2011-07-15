@@ -5,19 +5,34 @@
 <?php if (!$form->getObject()->isNew()): ?>
 <input type="hidden" name="sf_method" value="put" />
 <?php endif; ?>
-  <table>
-    <tfoot>
-      <tr>
-        <td colspan="2">
-          <?php if (!$form->getObject()->isNew()): ?>
-            &nbsp;<?php echo link_to('Delete', 'cadastro/delete?id='.$form->getObject()->getId(), array('method' => 'delete', 'confirm' => 'Are you sure?')) ?>
-          <?php endif; ?>
-          <input type="submit" value="Confirmar" />
-        </td>
-      </tr>
-    </tfoot>
-    <tbody>
-      <?php echo $form ?>
-    </tbody>
-  </table>
+<h2>Dados da Conta</h2>
+<?php foreach ($form->getWidgetSchema()->getFields() as $widgetName => $widgetInfo): ?>
+	<?php if ($widgetName != 'LabUser'): ?>
+		<?php $widgetOptions = $widgetInfo->getOptions(); ?>
+		<?php if ($widgetOptions['type'] == 'hidden'): ?>
+			<?php echo $form[$widgetName]->render(); ?>
+		<?php else: ?>
+			<?php echo '<h3>' . $form[$widgetName]->renderLabel() . '</h3>'; ?>
+			<?php echo $form[$widgetName]->render(array('class' => 'text small')); ?>
+		<?php endif; ?>
+	<?php else: ?>
+	<br />
+	<br />
+	<!-- Formulário dos dados pessoais -->
+		<h2>Dados Pessoais</h2>
+		<?php foreach ($form['LabUser'] as $inputName => $inputInfo): ?>
+			<h3><?php echo $form['LabUser'][$inputName]->renderLabel(); ?></h3>
+			<?php echo $form['LabUser'][$inputName]->render(array('class' => 'text small')); ?>
+			<br />
+		<?php endforeach; ?>
+	<?php endif; ?>
+<?php endforeach; ?>
+
+<?php if (!$form->getObject()->isNew()): ?>
+	<br /><input type="submit" class="submit mid" value="Cadastrar" />
+      &nbsp;<?php echo link_to('Remover Conta', 'cadastro/delete?id='.$form->getObject()->getId(), array('method' => 'delete', 'confirm' => 'Você tem certeza?')) ?>
+<?php else: ?>
+	<br /><input type="submit" class="submit mid" value="Cadastrar" />
+<?php endif; ?>
+
 </form>
