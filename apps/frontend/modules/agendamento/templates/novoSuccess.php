@@ -23,13 +23,15 @@
 			</ul>
 		</div>		<!-- .sidebar ends -->
 		
-		<div class="sidebar_content">
+		<div class="pseudo_sidebar_content">
 			<?php
 			switch ($this->getActionName()) {
 				case 'novo':   $formAction = url_for('agendamento/novo') . '/' . $currentStage; break;
 				case 'editar': $formAction = url_for('agendamento/editar?id=' . $appointmentId . '&stage=' . $currentStage); break;
 			}
+			if ($userInfo = $sf_user->getAttribute('agendar_como', false)) echo '<div class="message warning"><p>Agendando como ' . $userInfo['name'] . ' <a class="cancelar_agendamento" href="'.url_for('agendamento/agendarUsuario?mode=cancelar').'">(Cancelar)</a></p></div>';
 			?>
+			
 			<form action="<?php echo $formAction ?>" method="post">
 			
 			<?php foreach ($form->getWidgetSchema()->getFields() as $inputName => $info): ?>

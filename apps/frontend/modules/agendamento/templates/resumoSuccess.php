@@ -20,6 +20,7 @@
 		
 		<div class="sidebar_content">
 			<h2>Resumo do agendamento</h2>
+			<?php if ($userInfo = $sf_user->getAttribute('agendar_como', false)) echo '<div class="message warning"><p>Agendando como ' . $userInfo['name'] . ' <a class="cancelar_agendamento" href="'.url_for('agendamento/agendarUsuario?mode=cancelar').'">(Cancelar)</a></p></div>'; ?>
 			<p>Aenean facilisis ligula eget orci adipiscing varius. Curabitur sem ligula, egestas vel bibendum sed, sodales eu nulla. Vestibulum luctus aliquam feugiat. Donec porta interdum placerat. Donec velit enim, porta vitae euismod ut, fermentum eu felis. Morbi aliquet, libero vel gravida facilisis, enim risus consequat tellus, vitae luctus est diam non nisi. Vivamus eget leo sit amet neque ultricies blandit. Sed tristique erat a sem ullamcorper tempor.</p>
 			<form action="<?php echo url_for('agendamento/submit')  ?>" method="post">
 			<input type="hidden" name="submission_type" value="new_appointment" />

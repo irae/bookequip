@@ -6,18 +6,14 @@
 	<meta http-equiv="X-UA-Compatible" content="IE=7" />
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 	<?php include_title() ?>
-	<!--
     <style type="text/css" media="all">
-		@import url("css/style.css");
-		@import url("css/jquery.wysiwyg.css");
-		@import url("css/facebox.css");
-		@import url("css/visualize.css");
-		@import url("css/date_input.css");
+		@import url("/css/style.css");
+		@import url("/css/jquery.wysiwyg.css");
+		@import url("/css/facebox.css");
+		@import url("/css/visualize.css");
+		@import url("/css/date_input.css");
     </style>
-	-->
-	<?php include_stylesheets() ?>
-	<!--[if lt IE 8]><style type="text/css" media="all">@import url("css/ie.css");</style><![endif]-->
-	<?//php include_javascripts() ?>
+	<!--[if lt IE 8]><style type="text/css" media="all">@import url("/css/ie.css");</style><![endif]-->
 	
 </head>
 
@@ -45,7 +41,14 @@
 						</ul>
 						<?php endif; ?>
 					</li>
-					<li><a href="#">Administração</a></li>
+					<?php if ($sf_user->isAuthenticated() && $sf_user->hasGroup('admin')): ?>
+						<li><a href="#">Administração</a>
+							<ul>
+								<li><a href="<?php echo url_for('agendamento/agendarUsuario') ?>">Agendar para Usuário</a></li>
+							</ul>
+						</li>
+						
+					<?php endif; ?>
 				</ul>
 				
 				<?php if ($sf_user->isAuthenticated()): ?>
@@ -74,21 +77,21 @@
 	</div>		<!-- #hld ends -->
 	
 	
-	<!--[if IE]><script type="text/javascript" src="js/excanvas.js"></script><![endif]-->	
-	<script type="text/javascript" src="js/jquery.js"></script>
-	<script type="text/javascript" src="js/jquery.img.preload.js"></script>
-	<script type="text/javascript" src="js/jquery.filestyle.mini.js"></script>
-	<script type="text/javascript" src="js/jquery.wysiwyg.js"></script>
-	<script type="text/javascript" src="js/jquery.date_input.pack.js"></script>
-	<script type="text/javascript" src="js/facebox.js"></script>
-	<script type="text/javascript" src="js/jquery.visualize.js"></script>
-	<script type="text/javascript" src="js/jquery.visualize.tooltip.js"></script>
-	<script type="text/javascript" src="js/jquery.select_skin.js"></script>
-	<script type="text/javascript" src="js/jquery.tablesorter.min.js"></script>
-	<script type="text/javascript" src="js/ajaxupload.js"></script>
-	<script type="text/javascript" src="js/jquery.pngfix.js"></script>
-	<script type="text/javascript" src="js/custom.js"></script>
-
+	<!--[if IE]><script type="text/javascript" src="/js/excanvas.js"></script><![endif]-->	
+	<script type="text/javascript" src="/js/jquery.js"></script>
+	<script type="text/javascript" src="/js/jquery.img.preload.js"></script>
+	<script type="text/javascript" src="/js/jquery.filestyle.mini.js"></script>
+	<script type="text/javascript" src="/js/jquery.wysiwyg.js"></script>
+	<script type="text/javascript" src="/js/jquery.date_input.pack.js"></script>
+	<script type="text/javascript" src="/js/facebox.js"></script>
+	<script type="text/javascript" src="/js/jquery.visualize.js"></script>
+	<script type="text/javascript" src="/js/jquery.visualize.tooltip.js"></script>
+	<script type="text/javascript" src="/js/jquery.select_skin.js"></script>
+	<script type="text/javascript" src="/js/jquery.tablesorter.min.js"></script>
+	<script type="text/javascript" src="/js/ajaxupload.js"></script>
+	<script type="text/javascript" src="/js/jquery.pngfix.js"></script>
+	<script type="text/javascript" src="/js/custom.js"></script>
+	<script type="text/javascript" src="/js/bookequip.js"></script>
 	
 </body>
 </html>

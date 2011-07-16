@@ -107,7 +107,10 @@ class calendarioActions extends sfActions
 		} else {
 			$userId = $this->getUser()->getGuardUser()->getId();
 			$appointmentId = $request->getParameter('id');
-			$this->forward404Unless(Doctrine_Core::getTable('LabAppointment')->checkOwnership($appointmentId, $userId));
+			if (!$this->getUser()->hasGroup('admin') &&
+				!Doctrine_Core::getTable('LabAppointment')->checkOwnership($appointmentId, $userId)) {
+					$this->forward404();
+				}
 			if ($this->addAppointmentToCalendar($appointmentId)) {
 				$this->redirect('agendamento/index');
 			} else {

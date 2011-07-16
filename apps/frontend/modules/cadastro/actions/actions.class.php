@@ -27,7 +27,7 @@ class cadastroActions extends sfActions
 
 	public function executeEdit(sfWebRequest $request)
 	{
-		$this->forward404Unless($this->getUser()->isAuthenticated());
+		$this->redirectUnless($this->getUser()->isAuthenticated(), 'sfGuardAuth/signin');
 		$sf_guard_user = Doctrine_Core::getTable('sfGuardUser')->find($this->getUser()->getGuardUser()->getId());
 		$this->form = new sfGuardUserForm($sf_guard_user);
 	}

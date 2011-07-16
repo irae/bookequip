@@ -26,6 +26,14 @@ editar_agendamento:
   url:   /agendamento/editar/:id/:stage
   param: { module: agendamento, action: editar }
 
+cancelar_agendamento:
+  url: /agendamento/agendar-para-usuario/:mode
+  param: { module: agendamento, action: agendarUsuario }
+
+agendar_para_usuario:
+  url: /agendamento/agendar-para-usuario
+  param: { module: agendamento, action: agendarUsuario }
+
 adicionar_evento:
   url: /calendario/adicionar/:id
   param: { module: calendario, action: adicionar }

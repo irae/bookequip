@@ -152,7 +152,13 @@ class agendamentoActions extends sfActions
 		
 		// Appointment Key Information (goes to LabAppointment Table)
 		$appointment = new LabAppointment();
-		$appointment['user_id'] = $this->getUser()->getGuardUser()->getId();
+		if (is_null($this->getUser()->getAttribute('agendar_como', null))) {
+			$appointment['user_id'] = $this->getUser()->getGuardUser()->getId();
+		} else {
+			// Se o administrador estiver agendando para algum usuário
+			$doAppointmentAs = $this->getUser()->getAttribute('agendar_como');
+			$appointment['user_id'] = $doAppointmentAs['id'];
+		}
 		$appointment['equipment_id'] = $_SESSION['appointmentData'][appointmentFormBuilder::getStagePosition('EquipmentListForm')]['equipment'];
 		
 		$selectedSchedule = explode('.', $_SESSION['appointmentData'][appointmentFormBuilder::getStagePosition('ScheduleForm')]['schedule']);
@@ -323,6 +329,41 @@ class agendamentoActions extends sfActions
 
 		return $appointmentData;
 		
+	}
+	
+	public function executeAgendarUsuario (sfWebRequest $request) {
+		if (!$this->getUser()->isAuthenticated() || 
+			!$this->getUser()->hasGroup('admin')) {
+				$this->forward404();
+			}
+		
+		if (!$request->isMethod('post')) {
+			
+			// Quando a requisição for GET, há duas possibilidades:
+			// 1) Administrador deseja obter uma lista de usuários para efetuar um agendamento;
+			// 2) Administrador quer cancelar o modo "agendar para usuário"
+			
+			if ($request->getParameter('mode') != 'cancelar') {	
+				$query = Doctrine_Query::create()
+					->select('s.id, s.username, l.first_name')
+					->from('sfGuardUser s')
+					->leftJoin('s.LabUser l')
+					->orderBy('l.first_name ASC');
+				$this->userList = $query->execute();
+			} else {
+				$this->getUser()->setAttribute('agendar_como', null);
+				exit('Success');
+			}
+			
+		} else {
+			
+			// Salva na sessão os atributos do usuário para o qual se deseja fazer um agendamento
+			$userInfo = Doctrine::getTable('sfGuardUser')->find($request->getParameter('usuario'));
+			$this->getUser()->setAttribute('agendar_como', array('id' => $userInfo->getId(), 'name' => $userInfo->getLabUser()->getFirstName()));
+			$this->redirect('agendamento/novo');
+			
+		}
+	
 	}
 	
 
