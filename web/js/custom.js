@@ -99,7 +99,7 @@ $(function () {
 	$("form select.styled").select_skin();
 	
 	
-	
+	/*
 	// Tabs
 	$(".tab_content").hide();
 	$("ul.tabs li:first-child").addClass("active").show();
@@ -122,7 +122,7 @@ $(function () {
 	
 	
 	// Sidebar Tabs
-	/*
+	
 	$(".sidebar_content").hide();
 	
 	if(window.location.hash && window.location.hash.match('sb')) {
