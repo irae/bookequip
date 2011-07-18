@@ -45,6 +45,18 @@ editar_evento:
 resumo:
   url: /agendamento/resumo/:id
   param: { module: agendamento, action: resumo }
+
+autorizar_usuario:
+  url: /pendencias-cadastrais/autorizar/:nivel_usuario/:user_id
+  param: { module: pendenciasUsuario, action: autorizar }
+
+pendenciais_grupo:
+  url: /pendencias-cadastrais/:nivel_usuario
+  param: { module: pendenciasUsuario, action: index }
+  
+pendenciais_cadastrais:
+  url: /pendencias-cadastrais
+  param: { module: pendenciasUsuario, action: index }
     
 # generic rules
 # please, remove them by adding more specific rules

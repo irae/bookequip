@@ -44,7 +44,8 @@
 					<?php if ($sf_user->isAuthenticated() && $sf_user->hasGroup('admin')): ?>
 						<li><a href="#">Administração</a>
 							<ul>
-								<li><a href="<?php echo url_for('agendamento/agendarUsuario') ?>">Agendar para Usuário</a></li>
+								<li><a href="<?php echo url_for('agendamento/agendarUsuario') ?>">Agendar para usuário</a></li>
+								<li><a href="<?php echo url_for('pendenciasUsuario/index') ?>">Pendências cadastrais</a></li>
 							</ul>
 						</li>
 						
