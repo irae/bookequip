@@ -49,8 +49,12 @@ resumo:
 autorizar_usuario:
   url: /pendencias-cadastrais/autorizar/:nivel_usuario/:user_id
   param: { module: pendenciasUsuario, action: autorizar }
+  
+autorizar_multiplos_usuarios:
+  url: /pendencias-cadastrais/autorizar/:nivel_usuario
+  param: { module: pendenciasUsuario, action: autorizar }
 
-pendenciais_grupo:
+pendencias_grupo:
   url: /pendencias-cadastrais/:nivel_usuario
   param: { module: pendenciasUsuario, action: index }
   

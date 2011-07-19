@@ -27,10 +27,12 @@ class pendenciasUsuarioActions extends sfActions
 		if (is_null($request->getParameter('nivel_usuario')) ||
 			$request->getParameter('nivel_usuario') == 'cadastro-pendente') {
 			$this->listStatusText = 'Usuário com cadastro pendente. Permitir que se torne básico?';
-			$this->groupId = 2; // Cadastro Pendente			
+			$this->groupId = 2; // Cadastro Pendente
+			$this->autorizeToGroup = 'basico';		
 		} elseif ($request->getParameter('nivel_usuario') == 'avancado-pendente') {
 			$this->listStatusText = 'Usuário nível básico. Permitir que se torne avançado?';
 			$this->groupId = 4; // Avançado Pendente
+			$this->autorizeToGroup = 'avancado';
 		} else {
 			$this->forward404();
 		}
@@ -52,17 +54,35 @@ class pendenciasUsuarioActions extends sfActions
 			!$this->getUser()->hasGroup('admin')) {
 				$this->redirect('sfGuardAuth/signin');
 			}
+			
+		if ($request->getParameter('nivel_usuario') == 'basico') {
+			$setGroupTo = 3;
+			$redirectTo = '?nivel_usuario=cadastro-pendente';
+		} elseif ($request->getParameter('nivel_usuario') == 'avancado') {
+			$setGroupTo = 5;
+			$redirectTo = '?nivel_usuario=avancado-pendente';
+		}
 		
 		if ($request->isMethod('post')) {
+			
 			// Múltiplos usuários
-		} else {
-			// Apenas um usuário (Request assíncrono)
-			if ($request->getParameter('nivel_usuario') == 'basico') {
-				$setGroupTo = 3;
-			} elseif ($request->getParameter('nivel_usuario') == 'avancado') {
-				$setGroupTo = 5;
+			if (!is_null($request->getParameter('allow_user'))) {
+				$userList = array();
+				foreach ($request->getParameter('allow_user') as $userId) $userList[] = $userId;
+				$queryLimit = sizeof($userList);
+				$query = Doctrine_Query::create()
+					->update('sfGuardUserGroup')
+					->set('group_id', '?', $setGroupTo)
+					->whereIn('user_id', $userList)
+					->limit($queryLimit);
+			
+				$query->execute();
 			}
-
+			$this->redirect('pendenciasUsuario/index' . $redirectTo);
+			
+		} else {
+			
+			// Apenas um usuário (Request assíncrono)
 			$query = Doctrine_Query::create()
 				->update('sfGuardUserGroup')
 				->set('group_id', '?', $setGroupTo)
@@ -70,6 +90,7 @@ class pendenciasUsuarioActions extends sfActions
 				->limit(1);
 			$query->execute();
 			exit('Success');
+			
 		}
 	}
 

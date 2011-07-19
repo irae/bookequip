@@ -14,7 +14,7 @@
 		<?php endforeach; ?>
 	</select>
 	<br />
-	<input type="submit" class="submit mid" value="Prosseguir" />
+	<p><input type="submit" class="submit mid" value="Prosseguir" /></p>
 	</form>
 	
 	</div>		<!-- .block_content ends -->

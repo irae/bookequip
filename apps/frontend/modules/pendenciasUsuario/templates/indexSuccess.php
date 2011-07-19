@@ -13,7 +13,7 @@
 	<div class="block_content">
 
 	<?php if ($userList->count() > 0): ?>
-	
+		<form action="<?php echo url_for('pendenciasUsuario/autorizar?nivel_usuario='.$autorizeToGroup) ?>" method="post">
 		<table cellpadding="0" cellspacing="0" width="100%"> 
 
 			<thead> 
@@ -29,16 +29,25 @@
 			<tbody>
 				<?php foreach ($userList as $user): ?>
 				<tr> 
-					<td><input type="checkbox" /></td> 
+					<td><input type="checkbox" name="allow_user[]" value="<?php echo $user->getUserId() ?>" /></td> 
 					<td><a href="#"><?php echo $user->getUser()->getProfileFirstName() ?></a></td> 
 					<td><?php echo $listStatusText ?></td> 
 					<td><?php echo $user->get('created_at') ?></td> 
-					<td><a class="autorizar" href="<?php echo url_for('pendenciasUsuario/autorizar?nivel_usuario=basico&user_id=' . $user->getUserId()) ?>">Permitir</a></td> 
+					<td><a class="autorizar" href="<?php echo url_for('pendenciasUsuario/autorizar?nivel_usuario='.$autorizeToGroup.'&user_id=' . $user->getUserId()) ?>">Permitir</a></td> 
 				</tr>
 				<?php endforeach; ?>
 			</tbody> 
 
 		</table>
+		
+		<div class="tableactions"> 
+			<select> 
+				<option>Permitir</option> 
+			</select> 
+
+			<input type="submit" class="submit tiny" value="Aplicar" /> 
+		</div>		<!-- .tableactions ends -->
+		</form>
 		
 	<?php else: ?>
 		<div class="message info"><p>Não há usuários desse tipo no momento.</p></div>
