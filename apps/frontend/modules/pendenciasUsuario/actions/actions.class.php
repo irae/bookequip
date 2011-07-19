@@ -29,7 +29,7 @@ class pendenciasUsuarioActions extends sfActions
 			$this->listStatusText = 'Usuário com cadastro pendente. Permitir que se torne básico?';
 			$this->groupId = 2; // Cadastro Pendente			
 		} elseif ($request->getParameter('nivel_usuario') == 'avancado-pendente') {
-			$this->listStatusText = 'Usuários nível básico. Permitir que se torne avançado?';
+			$this->listStatusText = 'Usuário nível básico. Permitir que se torne avançado?';
 			$this->groupId = 4; // Avançado Pendente
 		} else {
 			$this->forward404();

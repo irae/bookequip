@@ -29,10 +29,10 @@
 <?php endforeach; ?>
 
 <?php if (!$form->getObject()->isNew()): ?>
-	<br /><input type="submit" class="submit mid" value="Cadastrar" />
-      &nbsp;<?php echo link_to('Remover Conta', 'cadastro/delete?id='.$form->getObject()->getId(), array('method' => 'delete', 'confirm' => 'Você tem certeza?')) ?>
+	<br /><p><input type="submit" class="submit mid" value="Cadastrar" />
+      &nbsp;<?php echo link_to('Remover Conta', 'cadastro/delete?id='.$form->getObject()->getId(), array('method' => 'delete', 'confirm' => 'Você tem certeza?')) ?></p>
 <?php else: ?>
-	<br /><input type="submit" class="submit mid" value="Cadastrar" />
+	<br /><p><input type="submit" class="submit mid" value="Cadastrar" /></p>
 <?php endif; ?>
 
 </form>

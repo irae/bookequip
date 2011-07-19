@@ -13,7 +13,6 @@ class cadastroActions extends sfActions
 
 	public function executeIndex(sfWebRequest $request)
 	{
-		
 		$this->form = new sfGuardUserForm();
 	}
 
@@ -27,9 +26,16 @@ class cadastroActions extends sfActions
 
 	public function executeEdit(sfWebRequest $request)
 	{
+		
 		$this->redirectUnless($this->getUser()->isAuthenticated(), 'sfGuardAuth/signin');
 		$sf_guard_user = Doctrine_Core::getTable('sfGuardUser')->find($this->getUser()->getGuardUser()->getId());
 		$this->form = new sfGuardUserForm($sf_guard_user);
+		
+		// Informações sobre o status da conta
+		$userGroup = Doctrine::getTable('sfGuardUserGroup')
+			->findByUserId($this->getUser()->getGuardUser()->getId());
+		$this->groupName = $userGroup[0]->getGroup()->getName();				
+		
 	}
 
 	public function executeUpdate(sfWebRequest $request)
@@ -50,6 +56,25 @@ class cadastroActions extends sfActions
 		$this->getUser()->signOut();
 		$sf_guard_user->delete();
 		$this->redirect('sfGuardAuth/signin');
+	}
+	
+	public function executeUpgrade(sfWebRequest $request)
+	{
+		// Por enquanto só há um tipo de upgrade de conta disponível: de básico para avançado.
+		$this->redirectUnless($this->getUser()->isAuthenticated(), 'sfGuardAuth/signin');
+		$userGroupCollection = $this->getUser()->getGuardUser()->getGroups();
+		$userGroupName = $userGroupCollection[0]->getName();
+		if ($userGroupName == 'básico') {
+			// Torna a conta do usuário no tipo 'avançado pendente'
+			$query = Doctrine_Query::create()
+				->update('sfGuardUserGroup')
+				->set('group_id', '?', 4)
+				->where('user_id = ?', $this->getUser()->getGuardUser()->getId())
+				->limit(1);
+			$query->execute();
+		}
+		$this->redirect('cadastro/edit');
+		
 	}
 
 	protected function processForm(sfWebRequest $request, sfForm $form)
