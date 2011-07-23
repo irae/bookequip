@@ -11,7 +11,6 @@
 	
 	
 	<div class="block_content">
-	
 		<form action="<?php echo url_for('@sf_guard_signin') ?>" method="post">
 		
 		<p>
