@@ -108,7 +108,8 @@ class agendamentoActions extends sfActions
 				if ($inputName != '_csrf_token') {
 					$currentField = array();
 					$options = $info->getOptions();
-					$currentField['label'] = $options['label'];
+					// Aqui o str_replace foi realizado para remover os asteriscos de obrigatoriedade de preenchimento
+					$currentField['label'] = str_replace('<span>&nbsp;*</span>', '', $options['label']);
 			
 					if (!array_key_exists('choices', $options)) {
 						$currentField['value'] = $userValues[$inputName];
