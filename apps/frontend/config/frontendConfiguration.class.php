@@ -23,7 +23,7 @@ class frontendConfiguration extends sfApplicationConfiguration
 	            if (isset($widgetSchema[$fieldName]))
 	            {
 	                $label = $widgetSchema[$fieldName]->getLabel() ? $widgetSchema[$fieldName]->getLabel() : sfInflector::humanize($fieldName);
-	                $asterisk = $validator->getOption('required') ? '&nbsp;*' : null;
+	                $asterisk = $validator->getOption('required') ? '<span>&nbsp;*</span>' : null;
 	                $widgetSchema[$fieldName]->setLabel($label . $asterisk);
 	            }
 

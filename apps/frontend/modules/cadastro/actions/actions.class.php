@@ -45,6 +45,11 @@ class cadastroActions extends sfActions
 		$this->form = new sfGuardUserForm($sf_guard_user);
 
 		$this->processForm($request, $this->form);
+		
+		// Informações sobre o status da conta
+		$userGroup = Doctrine::getTable('sfGuardUserGroup')
+			->findByUserId($this->getUser()->getGuardUser()->getId());
+		$this->groupName = $userGroup[0]->getGroup()->getName();
 
 		$this->setTemplate('edit');
 	}

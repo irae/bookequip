@@ -16,11 +16,11 @@ class sfGuardUserForm extends PluginsfGuardUserForm
 	parent::configure();
 	$profileForm = new LabUserForm($this->object->LabUser);
 	unset($profileForm['id'], $profileForm['sf_guard_user_id']);
-	//$this->widgetSchema['groups']sfWidgetFormInput
 	$this->widgetSchema['password'] = new sfWidgetFormInputPassword();
     $this->validatorSchema['password']->setOption('required', true);
 	$this->widgetSchema['password_again'] = new sfWidgetFormInputPassword();
     $this->validatorSchema['password_again'] = clone $this->validatorSchema['password'];
+	$this->validatorSchema['email_address'] = new sfValidatorEmail();
 	$this->embedForm('LabUser', $profileForm);
 	unset(
 		$this['first_name'],

@@ -23,7 +23,7 @@
 			</ul>
 		</div>		<!-- .sidebar ends -->
 		
-		<div class="pseudo_sidebar_content">
+		<div id="novo_agendamento" class="pseudo_sidebar_content">
 			<?php
 			switch ($this->getActionName()) {
 				case 'novo':   $formAction = url_for('agendamento/novo') . '/' . $currentStage; break;
@@ -36,9 +36,12 @@
 			
 			<?php foreach ($form->getWidgetSchema()->getFields() as $inputName => $info): ?>
 				<?php if ($inputName != '_csrf_token'): ?>
-					<h3><?php echo $form[$inputName]->renderLabel(); ?></h3>
+					<p>
+					<?php echo $form[$inputName]->renderLabel(); ?>
+					<?php if (!is_null($form[$inputName]->getError())) echo '<span>'.$form[$inputName]->getError().'</span>'; ?>
+					<br/>
 					<?php echo $form[$inputName]->render(); ?>
-					<br />
+					</p>
 				<?php endif; ?>
 			<?php endforeach; ?>
 			<?php echo $form['_csrf_token'] ?>
