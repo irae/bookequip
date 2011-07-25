@@ -1,1 +1,0 @@
-<p>Agendamento efetuado com sucesso.</p>
