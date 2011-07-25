@@ -251,7 +251,8 @@ class agendamentoActions extends sfActions
 							break;
 
 					}
-
+					
+					$this->getUser()->setFlash('success_message', 'Edição realizada com sucesso.');
 					$this->redirect('agendamento/resumo?id=' . $this->appointmentId);
 
 				}

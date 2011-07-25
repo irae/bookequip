@@ -11,6 +11,9 @@
 	
 	
 	<div class="block_content">
+	<?php if ($sf_user->hasFlash('success_message')): ?>
+	  <div class="message success"><p><?php echo $sf_user->getFlash('success_message') ?></p></div>
+	<?php endif; ?>
 	
 <?php include_partial('form', array('form' => $form)) ?>
 		

@@ -90,9 +90,11 @@ class cadastroActions extends sfActions
 				$sf_guard_user = $form->save();
 				// Vincula o cadastramento ao grupo 'cadastro pendente', para posterior liberação de uso pelo admin
 				$sf_guard_user->addGroupByName('cadastro pendente');
+				$this->getUser()->setFlash('success_message', 'Cadastro realizado com sucesso. Por favor, faça seu login.');
 				$this->redirect('sfGuardAuth/signin');
 			} else {
 				$sf_guard_user = $form->save();
+				$this->getUser()->setFlash('success_message', 'Cadastro atualizado com sucesso.');
 				$this->redirect('cadastro/edit');
 			}
 

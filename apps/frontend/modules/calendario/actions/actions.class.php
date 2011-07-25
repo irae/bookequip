@@ -112,6 +112,7 @@ class calendarioActions extends sfActions
 					$this->forward404();
 				}
 			if ($this->addAppointmentToCalendar($appointmentId)) {
+				$this->getUser()->setFlash('success_message', 'Agendamento realizado com sucesso.');
 				$this->redirect('agendamento/index');
 			} else {
 				die('Erro na adição do evento.');
