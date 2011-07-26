@@ -12,5 +12,9 @@
  */
 class LabAppointment extends BaseLabAppointment
 {
-
+	public function getEquipmentName()
+	{
+		return $this->getEquipment()->getName();
+	}
+	
 }

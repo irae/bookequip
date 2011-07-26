@@ -13,4 +13,9 @@
 class LabEquipment extends BaseLabEquipment
 {
 
+	public function __toString()
+	{
+	  return $this->getName();
+	}
+
 }

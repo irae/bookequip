@@ -13,4 +13,11 @@ require_once dirname(__FILE__).'/../lib/usuarioGeneratorHelper.class.php';
  */
 class usuarioActions extends autoUsuarioActions
 {
+	public function executeViewAppointments (sfWebRequest $request) {
+		$this->getUser()->setAttribute(
+			'agendamento.filters',
+			array('user_id' => $request->getParameter('id')),
+			'admin_module');
+		$this->redirect('agendamento/index');
+	}
 }

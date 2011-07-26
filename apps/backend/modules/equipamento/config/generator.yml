@@ -14,7 +14,13 @@ generator:
     config:
       actions: ~
       fields:  ~
-      list:    ~
+      list:
+        title: Equipamentos
+        hide: [calendar_url]
+        object_actions:
+          _edit: ~
+          viewSchedules: { label: Horarios, action: viewSchedules }
+          _delete: ~
       filter:  ~
       form:    ~
       edit:    ~

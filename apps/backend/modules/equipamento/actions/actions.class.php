@@ -13,4 +13,13 @@ require_once dirname(__FILE__).'/../lib/equipamentoGeneratorHelper.class.php';
  */
 class equipamentoActions extends autoEquipamentoActions
 {
+	public function executeViewSchedules (sfWebRequest $request)
+	{
+		$this->getUser()->setAttribute(
+			'horario.filters',
+			array('equipment_id' => $request->getParameter('id')),
+			'admin_module');
+			
+		$this->redirect('horario/index');
+	}
 }

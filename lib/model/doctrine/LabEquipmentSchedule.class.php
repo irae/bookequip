@@ -12,5 +12,7 @@
  */
 class LabEquipmentSchedule extends BaseLabEquipmentSchedule
 {
-
+	public function __toString() {
+		return sprintf('%s às %s', $this->getStartTime(), $this->getEndTime());
+	}
 }

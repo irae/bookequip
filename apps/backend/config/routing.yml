@@ -1,3 +1,21 @@
+lab_appointment:
+  class: sfDoctrineRouteCollection
+  options:
+    model:                LabAppointment
+    module:               agendamento
+    prefix_path:          /agendamento
+    column:               id
+    with_wildcard_routes: true
+
+lab_equipment_schedule:
+  class: sfDoctrineRouteCollection
+  options:
+    model:                LabEquipmentSchedule
+    module:               horario
+    prefix_path:          /horario
+    column:               id
+    with_wildcard_routes: true
+
 lab_equipment:
   class: sfDoctrineRouteCollection
   options:

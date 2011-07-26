@@ -1,0 +1,29 @@
+generator:
+  class: sfDoctrineGenerator
+  param:
+    model_class:           LabAppointment
+    theme:                 admin
+    non_verbose_templates: true
+    with_show:             false
+    singular:              ~
+    plural:                ~
+    route_prefix:          lab_appointment
+    with_doctrine_route:   true
+    actions_base_class:    sfActions
+
+    config:
+      actions: ~
+      fields:  ~
+      list:
+        title: Agendamentos
+        display: [=id, user_id, equipment_name, appointment_date, schedule_info, event_status, created_at]
+        fields:
+          user_id: { label: Usuário }
+          appointment_date: { label: Data, date_format: dd/MM/yyyy }
+          schedule_info: { label: Horário }
+          equipment_name: { label: Equipamento }
+          event_status: { label: Status }
+      filter:  ~
+      form:    ~
+      edit:    ~
+      new:     ~

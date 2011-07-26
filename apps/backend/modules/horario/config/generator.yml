@@ -1,0 +1,27 @@
+generator:
+  class: sfDoctrineGenerator
+  param:
+    model_class:           LabEquipmentSchedule
+    theme:                 admin
+    non_verbose_templates: true
+    with_show:             false
+    singular:              ~
+    plural:                ~
+    route_prefix:          lab_equipment_schedule
+    with_doctrine_route:   true
+    actions_base_class:    sfActions
+
+    config:
+      actions: ~
+      fields:  ~
+      list:
+        title: Horários
+        display: [=id, lab_equipment, start_time, end_time]
+        fields:
+          lab_equipment: { label: Equipamento }
+          start_time: { label: Horário Início }
+          end_time: { label: Horário Fim }
+      filter:  ~
+      form:    ~
+      edit:    ~
+      new:     ~

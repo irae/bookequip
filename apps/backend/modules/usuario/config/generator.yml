@@ -22,6 +22,10 @@ generator:
           label: Email
       list:
         display: [id, =username, profile_first_name, profile_last_name, email_address]
+        object_actions:
+          viewAppointments: { label: Agendamentos, action: viewAppointments }
+          _edit: ~
+          _delete: ~
       filter:
         display: [username, email_address, groups_list]
       form:
