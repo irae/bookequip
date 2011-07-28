@@ -191,8 +191,9 @@ class agendamentoActions extends sfActions
 		}
 	
 		unset($_SESSION['appointmentData']);
-		$this->redirect('calendario/adicionar?id=' . $appointment->getId());
-		//$this->redirect('agendamento/index');
+		//$this->redirect('calendario/adicionar?id=' . $appointment->getId());
+		$this->getUser()->setFlash('success_message', 'Agendamento efetuado com sucesso.');
+		$this->redirect('agendamento/index');
 	}
 
   
@@ -242,7 +243,7 @@ class agendamentoActions extends sfActions
 							$selectedSchedule = explode('.', $formValues['schedule']);
 							Doctrine_Core::getTable('LabAppointment')
 								->updateSchedule($this->appointmentId, $selectedSchedule[0], $selectedSchedule[1]);
-							$this->redirect('calendario/atualizar?id=' . $this->appointmentId);
+							// $this->redirect('calendario/atualizar?id=' . $this->appointmentId);
 							break;
 
 						default:

@@ -41,34 +41,83 @@ class calendarioActions extends sfActions
 		
 	}
 	
-	private function addAppointmentToCalendar($appointmentId)
+	public function executeAdicionar (sfWebRequest $request)
 	{
+		$this->forward404Unless($this->getUser()->hasGroup('admin'));
+		set_include_path(get_include_path() . PATH_SEPARATOR . sfConfig::get("sf_root_dir") . '/apps/frontend/lib');
 		
-		// TODO: Checar se agendamento existe, se o evento no calendário existe etc.
-		$appointmentData = Doctrine_Core::getTable('LabAppointment')->find($appointmentId); 
-		$gdataCal = new Zend_Gdata_Calendar($this->getClientLogin());
+		$query = Doctrine_Query::create()
+			->from('LabAppointment')
+			->where('is_synched = ?', 0)
+			->andWhere('event_status = ?', 'aprovado')
+			->limit(1);
+			
+		$queryResult = $query->execute();
 		
-		$newEvent = $gdataCal->newEventEntry();
-		$newEvent->title = $gdataCal->newTitle($appointmentData->getUser()->getProfileFirstName());
-		$newEvent->where = array($gdataCal->newWhere('Laboratório UNIFESP'));
-		$newEvent->content = $gdataCal->newContent($appointmentData->getEquipment()->getName());
-		$when = $gdataCal->newWhen();
-		$when->startTime = $appointmentData->getAppointmentDate().'T'.$appointmentData->getScheduleInfo()->getStartTime().'-03:00';
-		$when->endTime = $appointmentData->getAppointmentDate().'T'.$appointmentData->getScheduleInfo()->getEndTime().'-03:00';
-		$newEvent->when = array($when);
+		if ($queryResult->count() > 0) {
+			
+			$appointmentData = $queryResult[0];
+			
+			require_once 'Zend/Loader.php';
+			Zend_Loader::loadClass('Zend_Gdata');
+			Zend_Loader::loadClass('Zend_Gdata_AuthSub');
+			Zend_Loader::loadClass('Zend_Gdata_ClientLogin');
+			Zend_Loader::loadClass('Zend_Gdata_Calendar');
+			
+			$gdataCal = new Zend_Gdata_Calendar($this->getClientLogin());
+			
+			if (!is_null($appointmentData->getCalendarUrl())) {
+				// Remove a entrada antiga do evento, caso haja alguma.
+				try {
+				    $event = $gdataCal->getCalendarEventEntry($appointmentData->getCalendarUrl());
+				} catch (Zend_Gdata_App_Exception $e) {
+				    die("Error: " . $e->getMessage());
+				}
+				// TODO: Verificar se a remoção de fato ocorreu
+				$event->delete();
+			}
+			
+			$newEvent = $gdataCal->newEventEntry();
+			$newEvent->title = $gdataCal->newTitle($appointmentData->getUser()->getProfileFirstName());
+			$newEvent->where = array($gdataCal->newWhere('Laboratório UNIFESP'));
+			$newEvent->content = $gdataCal->newContent($appointmentData->getEquipment()->getName());
+			$when = $gdataCal->newWhen();
+			$when->startTime = $appointmentData->getAppointmentDate().'T'.$appointmentData->getScheduleInfo()->getStartTime().'-03:00';
+			$when->endTime = $appointmentData->getAppointmentDate().'T'.$appointmentData->getScheduleInfo()->getEndTime().'-03:00';
+			$newEvent->when = array($when);
 		
-		$equipmentInfo = Doctrine::getTable('LabEquipment')->find($appointmentData->getEquipmentId());
-		$calendarUrl = str_replace('@', '%40', $equipmentInfo->getCalendarUrl());
+			$equipmentInfo = Doctrine::getTable('LabEquipment')->find($appointmentData->getEquipmentId());
+			$calendarUrl = str_replace('@', '%40', $equipmentInfo->getCalendarUrl());
 		
-		// TODO: Verificar se o evento foi ou não adicionado corretamente ao Google Calendar
-		$createdEvent = $gdataCal->insertEvent($newEvent, 'http://www.google.com/calendar/feeds/' . $calendarUrl . '/private/full');
+			// TODO: Verificar se o evento foi ou não adicionado corretamente ao Google Calendar
+			$createdEvent = $gdataCal->insertEvent($newEvent, 'http://www.google.com/calendar/feeds/' . $calendarUrl . '/private/full');
 		
-		// Informa ao sistema que o agendamento foi adicionado ao calendário
-		$appointmentData->setCalendarUrl($createdEvent->id->text);
-		$appointmentData->setIsSynched(1);
-		$appointmentData->save();
+			// Informa ao sistema que o agendamento foi adicionado ao calendário
+			$appointmentData->setCalendarUrl($createdEvent->id->text);
+			$appointmentData->setIsSynched(1);
+			$appointmentData->save();
+			die('0');
 		
-		return true;
+		} else {
+			
+			// Todos os eventos estão sincronizados com o calendário
+			die('1');
+		
+		}
+		
+	}
+		
+	public function executeSync (sfWebRequest $request) {
+
+		$this->forward404Unless($this->getUser()->hasGroup('admin'));
+		// Vide template/syncSuccess.php
+	
+	}
+		
+	public function executeAutenticar (sfWebRequest $request) {
+		
+		$this->$captchaInfo = $this->getUser()->getAttribute('captcha', null);
+		if (is_null($captchaInfo)) $this->forward404();
 		
 	}
 	
@@ -95,65 +144,5 @@ class calendarioActions extends sfActions
 	
 	}
 	
-	public function executeAdicionar (sfWebRequest $request) {
-		set_include_path(get_include_path() . PATH_SEPARATOR . sfConfig::get("sf_root_dir") . '/apps/frontend/lib');
-		require_once 'Zend/Loader.php';
-		Zend_Loader::loadClass('Zend_Gdata');
-		Zend_Loader::loadClass('Zend_Gdata_AuthSub');
-		Zend_Loader::loadClass('Zend_Gdata_ClientLogin');
-		Zend_Loader::loadClass('Zend_Gdata_Calendar');
-		if (is_null($request->getParameter('id'))) {
-			die('TODO: Implementar modo rajada na adição de eventos ao calendário!');
-		} else {
-			$userId = $this->getUser()->getGuardUser()->getId();
-			$appointmentId = $request->getParameter('id');
-			if (!$this->getUser()->hasGroup('admin') &&
-				!Doctrine_Core::getTable('LabAppointment')->checkOwnership($appointmentId, $userId)) {
-					$this->forward404();
-				}
-			if ($this->addAppointmentToCalendar($appointmentId)) {
-				$this->getUser()->setFlash('success_message', 'Agendamento realizado com sucesso.');
-				$this->redirect('agendamento/index');
-			} else {
-				die('Erro na adição do evento.');
-			}
-		
-		}
-		
-	}
-	
-	public function executeAtualizar (sfWebRequest $request) {
-		
-		set_include_path(get_include_path() . PATH_SEPARATOR . sfConfig::get("sf_root_dir") . '/apps/frontend/lib');
-		require_once 'Zend/Loader.php';
-		Zend_Loader::loadClass('Zend_Gdata');
-		Zend_Loader::loadClass('Zend_Gdata_AuthSub');
-		Zend_Loader::loadClass('Zend_Gdata_ClientLogin');
-		Zend_Loader::loadClass('Zend_Gdata_Calendar');
-		if (is_null($request->getParameter('id'))) {
-			die('TODO: Implementar modo rajada na adição de eventos ao calendário!');
-		} else {
-			$userId = $this->getUser()->getGuardUser()->getId();
-			$this->appointmentId = $request->getParameter('id');
-			$this->forward404Unless(Doctrine_Core::getTable('LabAppointment')->checkOwnership($this->appointmentId, $userId));
-
-			if ($this->removeEventFromCalendar($this->appointmentId)) {
-				if ($this->addAppointmentToCalendar($this->appointmentId)) {
-					$this->redirect('agendamento/resumo?id=' . $this->appointmentId);
-				} else {
-					die('Erro na atualização do evento.');
-				}
-			}
-		
-		}
-		
-	}
-	
-	public function executeAutenticar (sfWebRequest $request) {
-		
-		$this->$captchaInfo = $this->getUser()->getAttribute('captcha', null);
-		if (is_null($captchaInfo)) $this->forward404();
-		
-	}
 
 }

@@ -67,6 +67,7 @@ class LabAppointmentTable extends Doctrine_Table
 		->update('LabAppointment')
 		->set('schedule_id', '?', $scheduleTimeId)
 		->set('appointment_date', '?', $appointmentDate)
+		->set('is_synched', '?', 0)
 		->where('id = ?', $appointmentId)
 		->limit(1);
 		

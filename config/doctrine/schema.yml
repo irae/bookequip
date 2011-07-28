@@ -15,8 +15,8 @@ LabAppointment:
     equipment_id:     { type: integer, notnull: true }
     appointment_date: { type: date, notnull: true }
     schedule_id:      { type: integer, notnull: true }
-    appointment_type: { type: enum, values: [ basic, advanced ] }
-    event_status:     { type: enum, values: [ approved, pending, billed ] }
+    appointment_type: { type: enum, values: [ básico, avançado ], default: básico }
+    event_status:     { type: enum, values: [ aprovado, pendente, faturado ], default: pendente }
     calendar_url:     { type: string(255) }
     is_synched:       { type: boolean, default: 0 }
   relations:

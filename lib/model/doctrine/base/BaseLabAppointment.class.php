@@ -73,18 +73,20 @@ abstract class BaseLabAppointment extends sfDoctrineRecord
              'type' => 'enum',
              'values' => 
              array(
-              0 => 'basic',
-              1 => 'advanced',
+              0 => 'básico',
+              1 => 'avançado',
              ),
+             'default' => 'básico',
              ));
         $this->hasColumn('event_status', 'enum', null, array(
              'type' => 'enum',
              'values' => 
              array(
-              0 => 'approved',
-              1 => 'pending',
-              2 => 'billed',
+              0 => 'aprovado',
+              1 => 'pendente',
+              2 => 'faturado',
              ),
+             'default' => 'pendente',
              ));
         $this->hasColumn('calendar_url', 'string', 255, array(
              'type' => 'string',

@@ -24,4 +24,16 @@ $(function() {
 		});
 	});
 	
+	if($('#cal_sync').size() > 0) {
+		$('<div id="async_request"></div>').hide().appendTo('body').load('adicionar', function() {
+			if ($('#async_request').text() == '0') {
+				$('#cal_sync').removeClass('info').addClass('warning').text('Refresh');
+			} else if ($('#async_request').text() == '1') {
+				$('#cal_sync').removeClass('info').addClass('success').text('Calendário sincronizado com sucesso!');
+			} else {
+				$('#cal_sync').removeClass('info').addClass('errormsg').text('Ocorreu um erro na atualização do calendário.');
+			}
+		});
+	}
+	
 });
