@@ -96,14 +96,18 @@ class calendarioActions extends sfActions
 			$appointmentData->setCalendarUrl($createdEvent->id->text);
 			$appointmentData->setIsSynched(1);
 			$appointmentData->save();
-			die('0');
+			$json = '{"repeat":true}';
 		
 		} else {
 			
 			// Todos os eventos estão sincronizados com o calendário
-			die('1');
+			$json = '{"repeat":false}';
 		
 		}
+		
+		$this->getResponse()->setHttpHeader('Content-type', 'application/json');
+		$this->renderText($json);
+		return sfView::NONE;
 		
 	}
 		

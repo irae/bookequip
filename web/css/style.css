@@ -1024,3 +1024,8 @@ form span {
 form label span {
 	font-size: 12px;
 }
+
+.calendar_wrapper {
+	width: 1090px;
+	margin: 10px auto;
+}
