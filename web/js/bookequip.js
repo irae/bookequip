@@ -2,7 +2,7 @@ $(function() {
 	
 	function calendarLoop() {
 		$.ajax({
-			url:'http://bookequip/frontend_dev.php/calendario/adicionar',
+			url:'adicionar',
 			dataType: 'json',
 			data: {},
 			success: function(data) {

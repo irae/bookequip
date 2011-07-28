@@ -63,10 +63,10 @@ class calendarioActions extends sfActions
 			Zend_Loader::loadClass('Zend_Gdata_AuthSub');
 			Zend_Loader::loadClass('Zend_Gdata_ClientLogin');
 			Zend_Loader::loadClass('Zend_Gdata_Calendar');
-			
+						
 			$gdataCal = new Zend_Gdata_Calendar($this->getClientLogin());
-			
-			if (!is_null($appointmentData->getCalendarUrl())) {
+
+			if ($appointmentData->getCalendarUrl() != '') {
 				// Remove a entrada antiga do evento, caso haja alguma.
 				try {
 				    $event = $gdataCal->getCalendarEventEntry($appointmentData->getCalendarUrl());
@@ -76,7 +76,7 @@ class calendarioActions extends sfActions
 				// TODO: Verificar se a remoção de fato ocorreu
 				$event->delete();
 			}
-			
+
 			$newEvent = $gdataCal->newEventEntry();
 			$newEvent->title = $gdataCal->newTitle($appointmentData->getUser()->getProfileFirstName());
 			$newEvent->where = array($gdataCal->newWhere('Laboratório UNIFESP'));
@@ -85,7 +85,7 @@ class calendarioActions extends sfActions
 			$when->startTime = $appointmentData->getAppointmentDate().'T'.$appointmentData->getScheduleInfo()->getStartTime().'-03:00';
 			$when->endTime = $appointmentData->getAppointmentDate().'T'.$appointmentData->getScheduleInfo()->getEndTime().'-03:00';
 			$newEvent->when = array($when);
-		
+			
 			$equipmentInfo = Doctrine::getTable('LabEquipment')->find($appointmentData->getEquipmentId());
 			$calendarUrl = str_replace('@', '%40', $equipmentInfo->getCalendarUrl());
 		
