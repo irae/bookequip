@@ -1014,18 +1014,22 @@ a:hover {
 
 #novo_agendamento form p {
 	clear: none;
-}
+	}
 
 form span {
 	color: red;
 	font-size: 10px;
-}
+	}
 
 form label span {
 	font-size: 12px;
-}
+	}
 
 .calendar_wrapper {
 	width: 1090px;
 	margin: 10px auto;
-}
+	}
+
+.wrapper {
+	min-width: 1135px;
+	}
