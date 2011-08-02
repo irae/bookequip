@@ -14,6 +14,7 @@
 		<?php if ($sf_user->hasFlash('success_message')): ?>
 		  <div class="message success"><p><?php echo $sf_user->getFlash('success_message') ?></p></div>
 		<?php endif; ?>
+		<?php if (!is_null($form['username']->getError())) echo '<div class="message errormsg"><p>Usuário e/ou senha incorreto(s)</p></div>' ?>
 		<form action="<?php echo url_for('@sf_guard_signin') ?>" method="post">
 		
 		<p>
