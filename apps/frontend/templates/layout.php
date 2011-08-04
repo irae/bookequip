@@ -34,6 +34,7 @@
 				<ul id="nav">
 					<li><a href="<?php echo url_for('calendario/index'); ?>">Calendário</a></li>
 					<li><a href="#">Equipamentos</a></li>
+					<?php if (!($sf_user->isAuthenticated() && $sf_user->hasGroup('admin'))): ?>
 					<li><a href="<?php echo url_for('agendamento/index'); ?>">Agendamentos</a>
 						<?php if (sfContext::getInstance()->getUser()->getGuardUser()): ?>
 						<ul>
@@ -41,6 +42,7 @@
 						</ul>
 						<?php endif; ?>
 					</li>
+					<?php endif; ?>
 					<?php if ($sf_user->isAuthenticated() && $sf_user->hasGroup('admin')): ?>
 						<li><a href="#">Administração</a>
 							<ul>

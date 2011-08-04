@@ -56,7 +56,7 @@
   font-size: 11px;
 }
 
-#sf_admin_container input, #sf_admin_container textarea, #sf_admin_container select
+#sf_admin_container , .block textarea, .block select
 {
   padding: 3px;
   font-family: Arial, sans-serif;
@@ -351,3 +351,5 @@
   display: inline;
   float: none;
 }
+
+

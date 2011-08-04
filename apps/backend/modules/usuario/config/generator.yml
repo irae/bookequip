@@ -2,7 +2,7 @@ generator:
   class: sfDoctrineGenerator
   param:
     model_class:           sfGuardUser
-    theme:                 admin
+    theme:                 bookequip
     non_verbose_templates: true
     with_show:             false
     singular:              ~
@@ -21,7 +21,7 @@ generator:
         email_address:
           label: Email
       list:
-        display: [id, =username, profile_first_name, profile_last_name, email_address]
+        display: [id, =username, email_address, profile_first_name, profile_last_name]
         object_actions:
           viewAppointments: { label: Agendamentos, action: viewAppointments }
           _edit: ~

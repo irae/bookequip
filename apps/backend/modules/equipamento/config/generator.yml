@@ -2,7 +2,7 @@ generator:
   class: sfDoctrineGenerator
   param:
     model_class:           LabEquipment
-    theme:                 admin
+    theme:                 bookequip
     non_verbose_templates: true
     with_show:             true
     singular:              ~
