@@ -55,7 +55,7 @@
 				
 				<?php if ($sf_user->isAuthenticated()): ?>
 					<?php if (!is_null($sf_user->getGuardUser()->getProfileFirstName())): ?>
-					<p class="user">Olá, <a href="#"><?php echo $sf_user->getGuardUser()->getProfileFirstName(); ?></a>
+					<p class="user">Olá, <a href="/meu-perfil"><?php echo $sf_user->getGuardUser()->getProfileFirstName(); ?></a>
 					<?php endif; ?>	
 					| <a href="<?php echo url_for('@sf_guard_signout') ?>">Logout</a></p>
 				<?php else: ?>
