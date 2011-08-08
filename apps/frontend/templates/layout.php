@@ -29,7 +29,7 @@
 				<div class="hdrl"></div>
 				<div class="hdrr"></div>
 				
-				<h1><a href="#">Book_Equip</a></h1>
+				<h1><a href="#">Agendamento Multiusuário</a></h1>
 				
 				<ul id="nav">
 					<li><a href="<?php echo url_for('calendario/index'); ?>">Calendário</a></li>

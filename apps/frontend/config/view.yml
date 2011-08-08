@@ -6,7 +6,7 @@ default:
     content-type: text/html
 
   metas:
-    title:        BookEquip UNIFESP
+    title:        Agendamento Multiusuário UNIFESP
     #description:  symfony project
     #keywords:     symfony, project
     #language:     en
