@@ -27,6 +27,9 @@ generator:
           viewAppointment: { label: Informações, action: viewAppointment }
           _edit: ~
           _delete: ~
+        batch_actions:
+          approveAppointment: { label: Aprovar agendamento, action: approveAppointment }
+          _delete: ~
       filter:  ~
       form:    ~
       edit:    ~

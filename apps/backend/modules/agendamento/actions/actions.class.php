@@ -18,4 +18,14 @@ class agendamentoActions extends autoAgendamentoActions
 		$this->redirect('/agendamento/resumo/' .  $request->getParameter('id'));
 	}
 	
+	public function executeBatchApproveAppointment (sfWebRequest $request)
+	{		
+		$query = Doctrine_Query::create()
+			->update('LabAppointment')
+			->set('event_status', '?', 'aprovado')
+			->whereIn('id', $request->getParameter('ids'))
+			->andWhere('event_status = ? ', 'pendente');
+		$query->execute();
+	}
+	
 }
