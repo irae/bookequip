@@ -70,7 +70,10 @@ class BasesfGuardAuthActions extends sfActions
 
   public function executeSignout($request)
   {
-    $this->getUser()->signOut();
+    unset($_SESSION['appointmentData']); // temporário
+	$this->getUser()->setAttribute('agendar_como', null); // temporário
+	
+	$this->getUser()->signOut();
 
     $signoutUrl = sfConfig::get('app_sf_guard_plugin_success_signout_url', $request->getReferer());
 

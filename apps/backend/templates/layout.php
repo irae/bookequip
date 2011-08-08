@@ -40,7 +40,7 @@
 						<li><a href="#">Administração</a>
 							<ul>
 								<li><a href="/calendario/sync">Sincronizar Calendário</a></li>
-								<li><a href="/agendamento/agendar-usuario">Agendar para usuário</a></li>
+								<li><a href="/agendamento/agendar-parusuario">Agendar para usuário</a></li>
 								<li><a href="/pendencias-cadastrais">Pendências cadastrais</a></li>
 								<li><a href="/backend.php/equipamento">Equipamentos</a></li>
 								<li><a href="/backend.php/horario">Horários de agendamento</a></li>

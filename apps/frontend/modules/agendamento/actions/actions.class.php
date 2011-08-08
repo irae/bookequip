@@ -20,6 +20,9 @@ class agendamentoActions extends sfActions
 	{
 		
 		$userInfo = $this->getUser()->getGuardUser();
+		if ($userInfo->hasGroup('admin')) {
+			$this->redirect('/pendencias-cadastrais');
+		}
 		$this->lastAppointments = Doctrine_Core::getTable('LabAppointment')->queryLastUserAppointments($userInfo->getId(), 10);
 		
 	}

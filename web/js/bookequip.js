@@ -34,7 +34,7 @@ $(function() {
 				if ($('.block_content tbody tr').size() > 1) {
 					$(e.target).parents('tr').filter(':first').hide().remove();
 				} else {
-					$('.block_content table').hide().remove();
+					$('.block_content table').add('div.tableactions').hide().remove();
 					$('.block_content').append('<div class="message info"><p>Não há usuários desse tipo no momento.</p></div>');
 				}
 			}

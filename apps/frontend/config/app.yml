@@ -4,5 +4,5 @@
 # default values
 all:
   sf_guard_plugin:
-    # success_signin_url:      @my_route?param=value # the plugin use the referer as default
+    success_signin_url:  /agendamento    # the plugin use the referer as default
     success_signout_url: @sf_guard_signin         # the plugin use the referer as default
