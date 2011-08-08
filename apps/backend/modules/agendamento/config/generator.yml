@@ -15,6 +15,7 @@ generator:
       actions: ~
       fields:  ~
       list:
+        max_per_page: 2
         title: Agendamentos
         display: [=id, user_id, equipment_name, appointment_date, schedule_info, event_status, created_at]
         fields:
