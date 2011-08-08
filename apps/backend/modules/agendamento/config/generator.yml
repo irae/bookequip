@@ -23,6 +23,10 @@ generator:
           schedule_info: { label: Horário }
           equipment_name: { label: Equipamento }
           event_status: { label: Status }
+        object_actions:
+          viewAppointment: { label: Informações, action: viewAppointment }
+          _edit: ~
+          _delete: ~
       filter:  ~
       form:    ~
       edit:    ~

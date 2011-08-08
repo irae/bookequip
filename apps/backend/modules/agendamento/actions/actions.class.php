@@ -13,4 +13,9 @@ require_once dirname(__FILE__).'/../lib/agendamentoGeneratorHelper.class.php';
  */
 class agendamentoActions extends autoAgendamentoActions
 {
+	public function executeViewAppointment (sfWebRequest $request)
+	{		
+		$this->redirect('/agendamento/resumo/' .  $request->getParameter('id'));
+	}
+	
 }

@@ -4,6 +4,11 @@
 		<div class="bheadl"></div>
 		<div class="bheadr"></div>	
 		<h2>Visualizar Agendamento</h2>
+		<?php if (!$editMode): ?>
+			<ul class="tabs">
+				<li><a href="/backend.php/agendamento">Voltar à lista</a></li>
+			</ul>
+		<?php endif; ?>
 	</div>		<!-- .block_head ends -->
 		
 	<div class="block_content">
@@ -12,7 +17,7 @@
 		<?php endif; ?>
 		<? foreach ($resumoAgendamento as $stage) {
 			echo '<h2>' . $stage['title'];
-			if ($stage['editable']) {
+			if ($editMode && $stage['editable']) {
 				echo ' <a href="' . url_for('agendamento/editar/?id=' . $appointmentId . '&stage=' . $stage['form-slug']) . '">[editar]</a>';
 			}
 			echo '</h2>';

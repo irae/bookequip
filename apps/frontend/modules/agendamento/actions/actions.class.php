@@ -82,7 +82,15 @@ class agendamentoActions extends sfActions
 		} else {
 			$this->appointmentId = $request->getParameter('id');
 			$userId = $this->getUser()->getGuardUser()->getId();
-			$this->forward404Unless(Doctrine_Core::getTable('LabAppointment')->checkOwnership($request->getParameter('id'), $userId));  
+			$this->editMode = true;
+			if (!$this->getUser()->hasGroup('admin')) {
+				$this->forward404Unless(Doctrine_Core::getTable('LabAppointment')->checkOwnership($request->getParameter('id'), $userId));
+			} else {
+				if (!Doctrine_Core::getTable('LabAppointment')->checkOwnership($request->getParameter('id'), $userId)) {
+					$this->editMode = false;
+				}
+			}
+			
 			$appointmentData = $this->getAppointmentInfo(array('mode' => 'edit', 'appointment_id' => $request->getParameter('id')));
 			$constructorParams = array('appointmentId' => $request->getParameter('id'));
 			$this->setTemplate('resumoExistente');
