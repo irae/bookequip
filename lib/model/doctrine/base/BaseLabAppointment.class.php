@@ -85,6 +85,8 @@ abstract class BaseLabAppointment extends sfDoctrineRecord
               0 => 'aprovado',
               1 => 'pendente',
               2 => 'faturado',
+              3 => 'cancelado',
+              4 => 'ocorrido',
              ),
              'default' => 'pendente',
              ));

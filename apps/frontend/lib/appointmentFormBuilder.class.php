@@ -60,6 +60,7 @@ class appointmentFormBuilder {
 	public function saveToSession($formData)
 	{
 		$this->submittedData[$this->currentPosition] = array('stageName' => $this->stageIndex[$this->currentPosition]) + $formData;
+		if ($this->currentStage == 'lista-equipamentos') $_SESSION['appointment_equipment'] = $formData['equipment']; // Temp
 		$this->whereTo();
 	}
 	

@@ -128,7 +128,12 @@ class agendamentoActions extends sfActions
 						if (is_array($userValues[$inputName])) {
 							$currentField['value'] = array();
 							foreach($userValues[$inputName] as $userChoice) {
-								$currentField['value'][] = $options['choices'][$userChoice];
+								// Se for um check box do tipo Alguma pergunta?, exibe no resumo a assertiva "Alguma pergunta."
+								if (substr($options['choices'][$userChoice], -1) == '?') {
+									$currentField['value'][] = str_replace('?', '.', $options['choices'][$userChoice]);
+								} else {
+									$currentField['value'][] = $options['choices'][$userChoice];
+								}
 							}
 						} else {
 							$currentField['value'] = $options['choices'][$userValues[$inputName]];
@@ -202,6 +207,7 @@ class agendamentoActions extends sfActions
 		}
 	
 		unset($_SESSION['appointmentData']);
+		unset($_SESSION['appointment_equipment']); // Temp
 		//$this->redirect('calendario/adicionar?id=' . $appointment->getId());
 		$this->getUser()->setFlash('success_message', 'Agendamento efetuado com sucesso.');
 		$this->redirect('agendamento/index');
@@ -315,6 +321,7 @@ class agendamentoActions extends sfActions
 				switch ($stageInfo['formClass']) {
 					case 'EquipmentListForm':
 						$formData['equipment'] = $appointmentObj->getEquipmentId();
+						$_SESSION['appointment_equipment'] = $formData['equipment']; // Temp
 						break;
 					case 'ScheduleForm':
 						$formData['schedule'] = $appointmentObj->getAppointmentDate() . '.' . $appointmentObj->getScheduleId();

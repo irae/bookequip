@@ -1,11 +1,15 @@
 LabEquipment:
   EquipamentoA:
-    name: Equipamento A
-    slug: equipamento-a
+    name: Espetrofluorímetro Hitachi F7000
+    slug: hitachi-f7000
     calendar_url: r9vr5qv2qr7e3673ecjm5rl12o@group.calendar.google.com
   EquipamentoB:
-    name: Equipamento B
-    slug: equipamento-b
+    name: Microscópio de Fluorescência Zeiss
+    slug: microscopio-zeiss
+    calendar_url: 9ttf2535a7l5ktn81ds43brk54@group.calendar.google.com
+  EquipamentoC:
+    name: Ressonância Plasmônica de Superficie BIACORE
+    slug: ressonancia-plasmonica
     calendar_url: 9ttf2535a7l5ktn81ds43brk54@group.calendar.google.com
 
 LabEquipmentSchedule:
@@ -25,6 +29,10 @@ LabEquipmentSchedule:
     LabEquipment: EquipamentoB
     start_time:   21:00
     end_time:     22:30
+  Schedule5:
+    LabEquipment: EquipamentoC
+    start_time:   08:00
+    end_time:     10:30
 
 sfGuardUser:
   User_admin:
